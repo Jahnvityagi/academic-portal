@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Academic Portal</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Favicons -->
+  <link href="{{url_for('static', filename='favicon.png')}}" rel="icon">
+  <link href="{{url_for('static', filename='apple-touch-icon.png')}}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href="{{url_for('static',filename='lib/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="{{url_for('static',filename='lib/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
+  <link href="{{url_for('static',filename='lib/animate/animate.min.css')}}" rel="stylesheet">
+  <link href="{{url_for('static',filename='lib/ionicons/css/ionicons.min.css')}}" rel="stylesheet">
+  <link href="{{url_for('static',filename='lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="{{url_for('static',filename='style.css')}}" rel="stylesheet">
+
+</head>
+
+<body>
+
+   <!-- Nav Start -->
+   <div >
+    <nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
+      <div class="container">
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <img class="navbar-brand" src="{{url_for('static', filename='logo.png')}}" height=5% width=5%>
+        <a class="navbar-brand text-brand" href="index.php">Indian<span class="color-b">Railways</span></a>
+        <button type="button" class="btn btn-link nav-search navbar-toggle-box-collapse d-md-none" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-expanded="false">
+          <span class="fa fa-search" aria-hidden="true"></span>
+        </button>
+        <div class="navbar-collapse collapse justify-content-center" id="navbarDefault" >
+          <ul class="navbar-nav" id="topheader">
+            <li class="nav-item">
+              <a class="nav-link " href="{{url_for('home')}}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="{{url_for('student_dashboard')}}">Student</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Teacher
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{url_for('login_teacher')}}">Login</a>
+                <a class="dropdown-item" href="{{url_for('upload_content')}}">Upload content</a>
+                <a class="dropdown-item" href="{{url_for('view_content')}}">View your content</a>
+                <a class="dropdown-item" href="{{url_for('view_submission')}}">View submissions</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="{{url_for('contact')}}">Contact Us</a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+  </div>
+  <!-- Nav End -->
+
+
+  <section class="intro-single">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-lg-8">
+            <div class="title-single-box">
+              <h1 class="title-single">Contact US</h1>
+              <span class="color-text-a">We are here to help you find answer to any question you might have.
+                We look forward to hearing from you.
+              </span>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-4">
+            <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="{{url_for('home')}}">Home</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                  Contact
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--/ Intro Single End /-->
+
+    <!--/ Contact Star /-->
+    <section class="contact">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7">
+            <div class="contact-map box">
+              <div class="mapouter" id="map">
+                <div class="gmap_canvas"><iframe width="100%" height="700" id="gmap_canvas" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500.8147796048993!2d77.23020441553085!3d28.665264089348728!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd0683919c3b%3A0xf5fc331b74c2b9e2!2sIndira%20Gandhi%20Delhi%20Technical%20University%20for%20Women!5e0!3m2!1sen!2sin!4v1584292518347!5m2!1sen!2sin" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://usave.co.uk">usave</a></div>
+                <style>
+                  .mapouter {
+                    position: relative;
+                    text-align: right;
+                    height: 500px;
+                    width: 819px;
+                  }
+
+                  .gmap_canvas {
+                    overflow: hidden;
+                    background: none !important;
+                    height: 500px;
+                    width: 819px;
+                  }
+                </style>
+              </div>
+            </div>
+          </div>
+          <div class = "col-md-2">
+          </div>
+
+              <div class="col-md-3">
+                <div class="icon-box section-b2">
+                  <div class="icon-box-icon">
+                    <span class="ion-ios-paper-plane"></span>
+                  </div>
+                  <div class="icon-box-content table-cell">
+                    <div class="icon-box-title">
+                      <h4 class="icon-title">Say Hello</h4>
+                    </div>
+                    <div class="icon-box-content">
+                      <p class="mb-1">Email.
+                        <span class="color-a">jahnvi@railway-reservation.tk</span>
+                      </p>
+                      <p class="mb-1">Phone.
+                        <span class="color-a">+54 356 945234</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="icon-box section-b2">
+                  <div class="icon-box-icon">
+                    <span class="ion-ios-pin"></span>
+                  </div>
+                  <div class="icon-box-content table-cell">
+                    <div class="icon-box-title">
+                      <h4 class="icon-title">Find us in</h4>
+                    </div>
+                    <div class="icon-box-content">
+                      <p class="mb-1">
+                        Federation of Railway Officer's Association Office, 256-A, Rail Bhavan, Raisina Road,
+                        New Delhi -110001
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="icon-box">
+                  <div class="icon-box-icon">
+                    <span class="ion-ios-redo"></span>
+                  </div>
+                  <div class="icon-box-content table-cell">
+                    <div class="icon-box-title">
+                      <h4 class="icon-title">Social networks</h4>
+                    </div>
+                    <div class="icon-box-content">
+                      <div class="socials-footer">
+                        <ul class="list-inline">
+                          <li class="list-inline-item">
+                            <a href="https://www.facebook.com/RailMinIndia" class="link-one">
+                              <i class="fa fa-facebook" aria-hidden="true"></i>
+                            </a>
+                          </li>
+                          <li class="list-inline-item">
+                            <a href="https://www.twitter.com/RailMinIndia" class="link-one">
+                              <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                          </li>
+                          <li class="list-inline-item">
+                            <a href="https://www.instagram.com/irctcofficial" class="link-one">
+                              <i class="fa fa-instagram" aria-hidden="true"></i>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </section>
+    <!--/ Contact End /-->
+
+
+
+  <!--/ footer Start /-->
+  <section class="section-footer">
+      <div class="container">
+          <div class="row">
+              <div class="col-sm-12 col-md-4">
+                  <div class="widget-a">
+                      <div class="w-header-a">
+                          <h3 class="w-title-a text-brand">Indian Railways</h3>
+                      </div>
+                      <div class="w-body-a">
+                          <p class="w-text-a color-text-a">
+                              Indian Railways is India's national railway system operated by the
+                              Ministry of Railways. It manages the fourth largest railway network in the world
+                              by size, with a route length of 67,368-kilometre
+                              and total track length of 121,407-kilometre as of March 2017.
+                          </p>
+                      </div>
+                      <div class="w-footer-a">
+                          <ul class="list-unstyled">
+                              <li class="color-a">
+                                  <span class="color-text-a">Phone: </span> +54 356 95674</li>
+                              <li class="color-a">
+                                  <span class="color-text-a">Email: </span> jahnvi@railway-reservation.tk</li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-sm-12 col-md-4 section-md-t3">
+                  <div class="widget-a">
+                      <div class="w-header-a">
+                          <h3 class="w-title-a text-brand">Did you know?</h3>
+                      </div>
+                      <div class="w-body-a">
+                          <p class="w-text-a color-text-a">
+                              Indian Railways is the world's eighth-largest employer by number of employees (1.4 million).
+                              The ones above it include United States Dept. of Defence,
+                              People's liberation army to name a few.
+                          </p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-sm-12 col-md-4 section-md-t3">
+                  <div class="widget-a">
+                      <div class="w-header-a">
+                          <h3 class="w-title-a text-brand">Feedback</h3>
+                      </div>
+                      <div class="w-body-a">
+                          <p class="w-text-a color-text-a">
+                              Give us your valuable feedback. You can call/email us on the given contact.
+                              You can also write a review on our social media sites.
+                              This will help us render better services.
+                          </p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  <footer>
+      <div class="container">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="socials-a">
+                      <ul class="list-inline">
+                          <li class="list-inline-item">
+                              <a href="https://www.facebook.com/RailMinIndia">
+                                  <i class="fa fa-facebook" aria-hidden="true"></i>
+                              </a>
+                          </li>
+                          <li class="list-inline-item">
+                              <a href="https://www.twitter.com/RailMinIndia">
+                                  <i class="fa fa-twitter" aria-hidden="true"></i>
+                              </a>
+                          </li>
+                          <li class="list-inline-item">
+                              <a href="https://www.instagram.com/irctcofficial">
+                                  <i class="fa fa-instagram" aria-hidden="true"></i>
+                              </a>
+                          </li>
+                      </ul>
+                  </div>
+                  <div class="copyright-footer">
+                      <p class="copyright color-text-a">
+                          &copy; Copyright. All Rights Reserved.
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </footer>
+  <!--/ Footer End /-->
+
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+  <div id="preloader"></div>
+
+  <!-- JavaScript Libraries -->
+  <script src="{{url_for('static',filename='lib/jquery/jquery.min.js')}}"></script>
+  <script src="{{url_for('static',filename='lib/jquery/jquery-migrate.min.js')}}"></script>
+  <script src="{{url_for('static',filename='lib/popper/popper.min.js')}}"></script>
+  <script src="{{url_for('static',filename='lib/bootstrap/js/bootstrap.min.js')}}"></script>
+  <script src="{{url_for('static',filename='lib/easing/easing.min.js')}}"></script>
+  <script src="{{url_for('static',filename='lib/owlcarousel/owl.carousel.min.js')}}"></script>
+  <script src="{{url_for('static',filename='lib/scrollreveal/scrollreveal.min.js')}}"></script>
+
+  <!-- Template Main Javascript File -->
+  <script src="{{url_for('static',filename='main.js')}}"></script>
+
+
+  </body>
+
+  </html>
