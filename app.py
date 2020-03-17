@@ -49,3 +49,7 @@ def view_content():
 @app.route('/view_submission')
 def view_submission():
     return render_template('view_submission.html')
+
+@app.route('/ela_notes')
+def ela_notes():
+    return render_template('ela_notes.html')
