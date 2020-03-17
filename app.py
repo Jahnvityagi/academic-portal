@@ -10,17 +10,6 @@ def home():
 def about():
     return render_template('about.html')
 
-@app.route('/news1')
-def news1():
-    return render_template('news1.html')
-
-@app.route('/news2')
-def news2():
-    return render_template('news2.html')
-
-@app.route('/news3')
-def news3():
-    return render_template('news3.html')
 
 @app.route('/contact')
 def contact():
@@ -53,3 +42,5 @@ def view_submission():
 @app.route('/ela_notes')
 def ela_notes():
     return render_template('ela_notes.html')
+
+    
