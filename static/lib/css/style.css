@@ -2,11 +2,7 @@
 /*======================================
 //--//-->   STYLES GENERALES
 ======================================*/
-table13 {
-  border-spacing: 0px;
-  border-collapse: separate;
-  border: 3px solid black;
-}
+
 body {
   font-family: 'Poppins', sans-serif;
   color: #555555;

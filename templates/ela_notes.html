@@ -27,7 +27,15 @@
   <!-- Main Stylesheet File -->
   <link href="{{url_for('static',filename='lib/css/style.css')}}" rel="stylesheet">
   <link href="{{url_for('static', filename='lib/css/album.css')}}" rel="stylesheet">
+  <style>
 
+  table, th, td{
+    border-spacing: 0px;
+    border-collapse: separate;
+    border: 1px solid black;
+  }
+
+  </style>
 </head>
 
 <body>
@@ -87,7 +95,7 @@ Artificial Intelligence, Natural Language Processing, Semantic Web , Web Technol
 
   </div>
   </section>
-  <table>
+  <table >
       <tr>
         <th>Topic</th>
         <th>Notes</th>
