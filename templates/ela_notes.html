@@ -1,3 +1,6 @@
+{% extends 'footer.html' %}
+{% block main %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,7 +53,7 @@
           <span></span>
         </button>
         <img class="navbar-brand" src="{{url_for('static', filename='LOGO1.png')}}" height=13% width=13%>
-        <a class="navbar-brand text-brand" href="index.php">IGDTUW<span class="color-b">SOMETHING</span></a>
+        <a class="navbar-brand text-brand" href="{{url_for('home')}}">IGDTUW<span class="color-b">SOMETHING</span></a>
         <button type="button" class="btn btn-link nav-search navbar-toggle-box-collapse d-md-none" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-expanded="false">
           <span class="fa fa-search" aria-hidden="true"></span>
         </button>
@@ -167,97 +170,6 @@ Artificial Intelligence, Natural Language Processing, Semantic Web , Web Technol
     </table>
 </main>
 
-<!--/ footer Start /-->
-<section class="section-footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 col-md-4">
-                <div class="widget-a">
-                    <div class="w-header-a">
-                        <h3 class="w-title-a text-brand">Indian Railways</h3>
-                    </div>
-                    <div class="w-body-a">
-                        <p class="w-text-a color-text-a">
-                            Indian Railways is India's national railway system operated by the
-                            Ministry of Railways. It manages the fourth largest railway network in the world
-                            by size, with a route length of 67,368-kilometre
-                            and total track length of 121,407-kilometre as of March 2017.
-                        </p>
-                    </div>
-                    <div class="w-footer-a">
-                        <ul class="list-unstyled">
-                            <li class="color-a">
-                                <span class="color-text-a">Phone: </span> +54 356 95674</li>
-                            <li class="color-a">
-                                <span class="color-text-a">Email: </span> jahnvi@railway-reservation.tk</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-4 section-md-t3">
-                <div class="widget-a">
-                    <div class="w-header-a">
-                        <h3 class="w-title-a text-brand">Did you know?</h3>
-                    </div>
-                    <div class="w-body-a">
-                        <p class="w-text-a color-text-a">
-                            Indian Railways is the world's eighth-largest employer by number of employees (1.4 million).
-                            The ones above it include United States Dept. of Defence,
-                            People's liberation army to name a few.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-4 section-md-t3">
-                <div class="widget-a">
-                    <div class="w-header-a">
-                        <h3 class="w-title-a text-brand">Feedback</h3>
-                    </div>
-                    <div class="w-body-a">
-                        <p class="w-text-a color-text-a">
-                            Give us your valuable feedback. You can call/email us on the given contact.
-                            You can also write a review on our social media sites.
-                            This will help us render better services.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="socials-a">
-                    <ul class="list-inline">
-                        <li class="list-inline-item">
-                            <a href="https://www.facebook.com/RailMinIndia">
-                                <i class="fa fa-facebook" aria-hidden="true"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="https://www.twitter.com/RailMinIndia">
-                                <i class="fa fa-twitter" aria-hidden="true"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="https://www.instagram.com/irctcofficial">
-                                <i class="fa fa-instagram" aria-hidden="true"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="copyright-footer">
-                    <p class="copyright color-text-a">
-                        &copy; Copyright. All Rights Reserved.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-<!--/ Footer End /-->
 
 <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 <div id="preloader"></div>
@@ -278,3 +190,4 @@ Artificial Intelligence, Natural Language Processing, Semantic Web , Web Technol
 </body>
 
 </html>
+{% endblock %}
