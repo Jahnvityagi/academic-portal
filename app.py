@@ -32,13 +32,16 @@ def register_student():
         if os.path.getsize('student_credentials.json'):
             with open('student_credentials.json') as sc:
                 credentials = json.load(sc)
-        credentials[email] = {
-        'name' : full_name,
-        'password' : pwd
-        }
-        with open('student_credentials.json', 'w') as sc:
-            json.dump(credentials, sc, indent=4)
-        flash('Registered successfully. Please login to continue.')
+        if email in credentials.keys():
+            flash('An account with this email already exists. Please login.')
+        else:
+            credentials[email] = {
+            'name' : full_name,
+            'password' : pwd
+            }
+            with open('student_credentials.json', 'w') as sc:
+                json.dump(credentials, sc, indent=4)
+            flash('Registered successfully. Please login to continue.')
     return redirect(url_for('login_student'))
 
 @app.route('/loginStudent', methods = ['POST'])
