@@ -1,6 +1,17 @@
 {% extends 'footer.html' %}
 {% block main %}
 
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <script>
+      var messages = {{ messages | safe }};
+      for (var i=0; i<messages.length; i++) {
+        alert(messages[i]);
+      }
+    </script>
+  {% endif %}
+{% endwith %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,6 +42,56 @@
   <link href="{{url_for('static',filename='lib/css/style.css')}}" rel="stylesheet">
   <link href="{{url_for('static', filename='lib/css/album.css')}}" rel="stylesheet">
 
+  <style>
+    .navigation {
+      width: 100%;
+      background-color: white;
+      margin-left:80%;
+    }
+
+    .image {
+      width: 30px;
+      border-radius: 5px;
+      float: left;
+    }
+
+    .logout {
+      font-size: 22px;
+      font-family: 'Oswald', sans-serif;
+    	position: relative;
+      overflow: hidden;
+      letter-spacing: 2px;
+      opacity: 0;
+      transition: opacity .45s;
+      -webkit-transition: opacity .35s;
+
+    }
+
+    .button-logout {
+    	text-decoration: none;
+    	float: right;
+      padding: 8px;
+      margin: 5px;
+      color: white;
+      width: 50px;
+      background-color: white;
+      transition: width .35s;
+      -webkit-transition: width .35s;
+      overflow: hidden
+    }
+
+    .a-logout:hover {
+      width: 200px;
+    }
+
+    .a-logout:hover .logout{
+      opacity: .9;
+    }
+
+    .a-logout {
+      text-decoration: none;
+    }
+  </style>
 </head>
 
 <body>
@@ -71,6 +132,7 @@
               <a class="nav-link " href="{{url_for('contact')}}">Contact Us</a>
             </li>
           </ul>
+
         </div>
 
       </div>
@@ -80,11 +142,18 @@
 
 
   <main role="main">
+  <section class="jumbotron text-center " style="margin-top:9%; background-image: url({{url_for('static', filename='books.jpg')}})">
+  <div class="container" style="">
+    <h1 style="color:white"><b>Welcome {{name}}</b></h1>
+    <!-- <p class="lead text-muted">Stay updated and prepare well! Refer to your professors class notes, summaries, assignments and augment to your classroom learning  </p> -->
+    <div class="navigation">
+        <a class="button-logout a-logout" href="{{url_for('logout_student')}}">
+             <img class="image" src="{{url_for('static', filename='logout.png')}}">
+             <div class="logout">LOGOUT</div>
+        </a>
+  </div>
 
-  <section class="jumbotron text-center " style="margin-top:6%">
-  <div class="container">
-    <h1>Welcome 'XYZ'</h1>
-    <p class="lead text-muted">Stay updated and prepare well! Refer to your professors class notes, summaries, assignments and augment to your classroom learning  </p>
+
 
   </div>
   </section>
