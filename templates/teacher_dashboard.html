@@ -1,5 +1,15 @@
 {% extends 'footer.html' %}
 {% block main %}
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <script>
+      var messages = {{ messages | safe }};
+      for (var i=0; i<messages.length; i++) {
+        alert(messages[i]);
+      }
+    </script>
+  {% endif %}
+{% endwith %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,11 +21,6 @@
   <meta content="" name="keywords">
 
 
-  <!-- <link rel="stylesheet" href="{{url_for('static', filename='lib/css/bootstrap-theme.min.css')}}"> -->
-  <!-- <link rel="stylesheet" href="{{url_for('static', filename='lib/css/heroslider.css')}}"> -->
-  <!-- <link rel="stylesheet" href="{{url_for('static', filename='lib/css/datepicker.css')}}"> -->
-  <link rel="stylesheet" href="{{url_for('static', filename='lib/css/templatemo-style.css')}}">
-  <!-- <script src="{{url_for('static', filename='lib/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js')}}"></script> -->
 
   <!-- Favicons -->
   <link href="{{url_for('static', filename='favicon.png')}}" rel="icon">
@@ -36,6 +41,7 @@
   <!-- Main Stylesheet File -->
   <link href="{{url_for('static',filename='lib/css/style.css')}}" rel="stylesheet">
   <link href="{{url_for('static', filename='lib/css/album.css')}}" rel="stylesheet">
+  <link rel="stylesheet" href="{{url_for('static', filename='lib/css/templatemo-style.css')}}">
 
   <style>
 
@@ -84,15 +90,8 @@
             <li class="nav-item">
               <a class="nav-link" href="{{url_for('student_dashboard')}}">Student</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Teacher
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{url_for('login_teacher')}}">Login</a>
-                <a class="dropdown-item" href="{{url_for('view_content')}}">View your content</a>
-                <a class="dropdown-item" href="{{url_for('view_submission')}}">View submissions</a>
-              </div>
+            <li class="nav-item">
+              <a class="nav-link active" href="{{url_for('teacher_dashboard')}}">Teacher</a>
             </li>
             <li class="nav-item">
               <a class="nav-link " href="{{url_for('contact')}}">Contact Us</a>

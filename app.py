@@ -24,25 +24,28 @@ def login_student():
 def register_student():
     if request.form['password'] != request.form['password2']:
         flash('The passwords do not match. Please register again.')
+        return redirect(url_for('login_student'))
+    credentials = {}
+    full_name = request.form['first_name'] + " " + request.form['last_name']
+    pwd = request.form['password']
+    email = request.form['email']
+    if os.path.getsize('student_credentials.json'):
+        with open('student_credentials.json') as sc:
+            credentials = json.load(sc)
+    if email in credentials.keys():
+        flash('An account with this email already exists. Please login.')
+        return redirect(url_for('login_student'))
     else:
-        credentials = {}
-        full_name = request.form['first_name'] + " " + request.form['last_name']
-        pwd = request.form['password']
-        email = request.form['email']
-        if os.path.getsize('student_credentials.json'):
-            with open('student_credentials.json') as sc:
-                credentials = json.load(sc)
-        if email in credentials.keys():
-            flash('An account with this email already exists. Please login.')
-        else:
-            credentials[email] = {
-            'name' : full_name,
-            'password' : pwd
-            }
-            with open('student_credentials.json', 'w') as sc:
-                json.dump(credentials, sc, indent=4)
-            flash('Registered successfully. Please login to continue.')
-    return redirect(url_for('login_student'))
+        credentials[email] = {
+        'name' : full_name,
+        'password' : pwd
+        }
+        with open('student_credentials.json', 'w') as sc:
+            json.dump(credentials, sc, indent=4)
+        session['StudentLoggedIn'] = True
+        session['StudentEmail'] = email
+        flash('You have been registered and logged in successfully.')
+    return redirect(url_for('student_dashboard'))
 
 @app.route('/loginStudent', methods = ['POST'])
 def loginStudent():
@@ -66,7 +69,7 @@ def loginStudent():
 
 @app.route('/student-logout')
 def logout_student():
-    session.clear()
+    session['StudentLoggedIn'] = False
     flash('Logged out successfully.')
     return redirect(url_for('login_student'))
 
@@ -79,29 +82,60 @@ def login_teacher():
 def register_teacher():
     if request.form['password'] != request.form['password2']:
         flash('The passwords do not match. Please register again.')
+        return redirect(url_for('login_teacher'))
+    credentials = {}
+    full_name = request.form['first_name'] + " " + request.form['last_name']
+    pwd = request.form['password']
+    email = request.form['email']
+    spc = request.form['specialization']
+    dsg = request.form['designation']
+    if os.path.getsize('teacher_credentials.json'):
+        with open('teacher_credentials.json') as tc:
+            credentials = json.load(tc)
+    if email in credentials.keys():
+        flash('An account with this email already exists. Please login.')
+        return redirect(url_for('login_teacher'))
     else:
-        credentials = {}
-        full_name = request.form['first_name'] + " " + request.form['last_name']
-        pwd = request.form['password']
-        email = request.form['email']
-        spc = request.form['specialization']
-        dsg = request.form['designation']
-        if os.path.getsize('teacher_credentials.json'):
-            with open('teacher_credentials.json') as tc:
-                credentials = json.load(tc)
-        if email in credentials.keys():
-            flash('An account with this email already exists. Please login.')
+        credentials[email] = {
+        'name' : full_name,
+        'password' : pwd,
+        'specialization' : spc,
+        'designation' : dsg
+        }
+        with open('teacher_credentials.json', 'w') as tc:
+            json.dump(credentials, tc, indent=4)
+        session['TeacherLoggedIn'] = True
+        session['TeacherEmail'] = email
+        flash('You have been registered and logged in successfully.')
+    return redirect(url_for('teacher_dashboard'))
+
+
+@app.route('/loginTeacher', methods = ['POST'])
+def loginTeacher():
+    email = request.form['email']
+    pwd = request.form['password']
+    credentials = {}
+    if os.path.getsize('teacher_credentials.json'):
+        with open('teacher_credentials.json') as tc:
+            credentials = json.load(tc)
+    if email in credentials.keys():
+        if pwd == credentials[email]['password']:
+            session['TeacherLoggedIn'] = True
+            session['TeacherEmail'] = email
+            flash('Logged in successfully.')
+            return redirect(url_for('teacher_dashboard'))
         else:
-            credentials[email] = {
-            'name' : full_name,
-            'password' : pwd,
-            'specialization' : spc,
-            'designation' : dsg
-            }
-            with open('teacher_credentials.json', 'w') as tc:
-                json.dump(credentials, tc, indent=4)
-            flash('Registered successfully. Please login to continue.')
+            flash('Incorrect password. Please try again.')
+    else:
+        flash('No account with this email exists. Please Register to continue.')
     return redirect(url_for('login_teacher'))
+
+@app.route('/teacher-logout')
+def logout_teacher():
+    session.clear()
+    flash('Logged out successfully.')
+    return redirect(url_for('login_teacher'))
+
 
 @app.route('/student_dashboard')
 def student_dashboard():
@@ -113,17 +147,14 @@ def student_dashboard():
     return render_template('student_dashboard.html', name = credentials[session['StudentEmail']]['name'])
 
 
-@app.route('/upload_content')
-def upload_content():
-    return render_template('upload_content.html')
-
-@app.route('/view_content')
-def view_content():
-    return render_template('view_content.html')
-
-@app.route('/view_submission')
-def view_submission():
-    return render_template('view_submission.html')
+@app.route('/teacher_dashboard')
+def teacher_dashboard():
+    if not session.get('TeacherLoggedIn'):
+        flash('Please login to continue.')
+        return redirect(url_for('login_teacher'))
+    with open('teacher_credentials.json') as tc:
+        credentials = json.load(tc)
+    return render_template('teacher_dashboard.html')
 
 @app.route('/ela_notes')
 def ela_notes():

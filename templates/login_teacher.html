@@ -65,15 +65,8 @@
             <li class="nav-item">
               <a class="nav-link " href="{{url_for('student_dashboard')}}">Student</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Teacher
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{url_for('login_teacher')}}">Login</a>
-                <a class="dropdown-item" href="{{url_for('view_content')}}">View your content</a>
-                <a class="dropdown-item" href="{{url_for('view_submission')}}">View submissions</a>
-              </div>
+            <li class="nav-item ">
+              <a class="nav-link active" href="{{url_for('teacher_dashboard')}}">Teacher</a>
             </li>
             <li class="nav-item">
               <a class="nav-link " href="{{url_for('contact')}}">Contact Us</a>
@@ -106,6 +99,7 @@
        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
          <div class="modal-dialog modal-dialog-centered" role="document">
            <div class="modal-content">
+             <form action="loginTeacher" method="post">
              <div class="modal-header">
                <h5 class="modal-title" id="exampleModalLongTitle">Login</h5>
                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -113,7 +107,7 @@
                </button>
              </div>
              <div class="modal-body">
-               <form action="" method="post">
+
                  <div class="form-group">
                    <label for="email" style="color: black;">Email ID</label>
                    <input type="text" class="form-control" id="email" name="email" aria-describedby="name" placeholder="Enter your Email ID">
