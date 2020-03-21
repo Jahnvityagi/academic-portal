@@ -9,26 +9,14 @@
   <title>Academic Portal</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="" name="keywords">
-  <meta content="" name="description">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Avalon full-width responsive template</title>
-<!--
-Avalon Template
-http://www.templatemo.com/tm-513-avalon
--->
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-  <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="css/hero-slider.css">
-  <link rel="stylesheet" href="css/datepicker.css">
-  <link rel="stylesheet" href="css/templatemo-style.css">
 
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="{{url_for('static', filename='lib/css/bootstrap-theme.min.css')}}"> -->
+  <!-- <link rel="stylesheet" href="{{url_for('static', filename='lib/css/heroslider.css')}}"> -->
+  <!-- <link rel="stylesheet" href="{{url_for('static', filename='lib/css/datepicker.css')}}"> -->
+  <link rel="stylesheet" href="{{url_for('static', filename='lib/css/templatemo-style.css')}}">
+  <!-- <script src="{{url_for('static', filename='lib/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js')}}"></script> -->
 
-  <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
   <!-- Favicons -->
   <link href="{{url_for('static', filename='favicon.png')}}" rel="icon">
   <link href="{{url_for('static', filename='apple-touch-icon.png')}}" rel="apple-touch-icon">
@@ -44,7 +32,6 @@ http://www.templatemo.com/tm-513-avalon
   <link href="{{url_for('static',filename='lib/animate/animate.min.css')}}" rel="stylesheet">
   <link href="{{url_for('static',filename='lib/ionicons/css/ionicons.min.css')}}" rel="stylesheet">
   <link href="{{url_for('static',filename='lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
-
 
   <!-- Main Stylesheet File -->
   <link href="{{url_for('static',filename='lib/css/style.css')}}" rel="stylesheet">
@@ -68,6 +55,8 @@ http://www.templatemo.com/tm-513-avalon
       box-shadow: 3px 3px 0px transparent;
       transition: 0.5s;
       }
+
+
   </style>
 </head>
 
@@ -119,7 +108,7 @@ http://www.templatemo.com/tm-513-avalon
       <div class="container-fluid">
           <div class="row">
               <div class="col-md-8">
-                  <div class="left-banner-content">
+                  <div class="left-banner-content" style=	"background-image: url({{url_for('static', filename='best-offer-bg.png')}});">
                       <div class="text-content">
                           <div class="line-dec"></div>
                           <h1>Previous uploads</h1>
@@ -174,7 +163,6 @@ http://www.templatemo.com/tm-513-avalon
                                        <td>c</td>
 
                                    </tr>
-
                              </table>
                              </div>
                           </div>
@@ -184,7 +172,7 @@ http://www.templatemo.com/tm-513-avalon
               </div>
               <div class="col-md-4">
                   <div class="right-banner-content">
-                      <div class="logo"><a href="index.html"><img src="img/logo.png" alt=""></a></div>
+                      <div class="logo"><a href=""><img src="{{url_for('static', filename='icon.png')}}" height=200px alt=""></a></div>
                       <h2>Upload Content</h2>
                       <form action="" method="post">
                         <label for="text">Topic Name</label>
@@ -211,11 +199,16 @@ http://www.templatemo.com/tm-513-avalon
       <div class="container-fluid">
           <div class="row">
               <div class="col-md-4">
-                  <div class="best-offer-left-content">
-                      <div class="icon"><img src="img/best-offer-icon.png" alt=""></div>
+                  <div class="best-offer-left-content" style=	"background-image: url({{url_for('static', filename='books.jpg')}});">
+                      <div style="text-align: center;
+                    	margin: 0 auto;
+                    	width: 140px;
+                    	height: 140px;
+                    	line-height: 140px;
+                    	background-color: transparent;"><img src="{{url_for('static', filename='icon3.png')}}" width=100% height=100% alt=""></div>
                       <h4>Upload Essay Topic</h4>
                       <form action="" method="post">
-                        <label for="text">Topic Name</label>
+                        <label for="text" >Topic Name</label>
                         <input type="text" name="topic" value="" required>
                       </form>
 
@@ -240,7 +233,7 @@ http://www.templatemo.com/tm-513-avalon
                               <div class="container">
                                 <div class="row col-md-6 col-md-offset-2 custyle">
                                 <table class="table table-striped custab" align="center">
-                              
+
                                 <thead>
                                     <tr>
                                         <th>Roll Number</th>
@@ -298,7 +291,7 @@ http://www.templatemo.com/tm-513-avalon
 
                           </div>
                           <div class="col-md-6 col-sm-12">
-                              <img src="reddy.jpg" alt="">
+                              <img src="{{url_for('static', filename='icon2.png')}}" height=30% width=40% alt="">
                           </div>
                       </div>
                   </div>
