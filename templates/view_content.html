@@ -104,25 +104,26 @@
     </nav>
   </div>
 
-  <section class="banner" id="top" style="margin-top:16%">
+  <section class="banner" id="top" style="margin-top:3%">
       <div class="container-fluid">
           <div class="row">
               <div class="col-md-8">
-                  <div class="left-banner-content" style=	"background-image: url({{url_for('static', filename='best-offer-bg.png')}});">
+                  <div class="left-banner-content" style=	"background-image: url({{url_for('static', filename='th (1).jpg')}});">
                       <div class="text-content">
                           <div class="line-dec"></div>
-                          <h1>Previous uploads</h1>
+                      <img src="{{url_for('static', filename='notes.png')}}" width=20% height=20% align="center" alt=""></img>
+                          <div style="margin-top: -115px"><h1><b> PREVIOUS UPLOADS</b></h1></div>
                           <div class="white-border-button">
                             <div class="container">
                               <div class="row col-md-6 col-md-offset-2 custyle">
-                              <table class="table table-striped custab" align="center">
+                              <table class="table table-striped custab">
                               <thead>
                                   <tr>
                                       <th>Topic Name</th>
-                                      <th>Uplaoded on</th>
+                                      <th>Uploaded on</th>
                                       <th>Notes PDF</th>
                                       <th>Summary PDF </th>
-                                      <th>Assignment PDF </th>
+
                                   </tr>
                               </thead>
                                       <tr>
@@ -130,14 +131,14 @@
                                           <td>a</td>
                                           <td>a</td>
                                           <td>a</td>
-                                          <td>a</td>
+
 
                                       <tr>
                                           <td>b</td>
                                           <td>b</td>
                                           <td>b</td>
                                           <td>b</td>
-                                          <td>b</td>
+
 
                                       </tr>
                                       <tr>
@@ -145,24 +146,18 @@
                                          <td>c</td>
                                          <td>c</td>
                                          <td>c</td>
-                                         <td>c</td>
+
 
                                      <tr>
                                         <td>c</td>
+                                        <td >c</td>
                                         <td>c</td>
-                                        <td>c</td>
-                                        <td>c</td>
-                                        <td>c</td>
+                                        <td >c</td>
+
+
 
                                     </tr>
-                                    <tr>
-                                       <td>c</td>
-                                       <td>c</td>
-                                       <td>c</td>
-                                       <td>c</td>
-                                       <td>c</td>
 
-                                   </tr>
                              </table>
                              </div>
                           </div>
@@ -171,23 +166,21 @@
                   </div>
               </div>
               <div class="col-md-4">
-                  <div class="right-banner-content">
-                      <div class="logo"><a href=""><img src="{{url_for('static', filename='icon.png')}}" height=200px alt=""></a></div>
+                  <div class="right-banner-content" style=	"background-image: url({{url_for('static', filename='y2.jpg')}});">
+                      <div class="logo"><a href=""><img src="{{url_for('static', filename='icon.png')}}" height=150px alt=""></a></div>
                       <h2>Upload Content</h2>
                       <form action="" method="post">
-                        <label for="text">Topic Name</label>
+                        <br>
+                        <b><h6><label for="text">Topic Name</label></h6></b>
                         <input type="text" name="topic" value="" required>
                       </form>
 
                       <form action="your-url" method="post" enctype="multipart/form-data">
-                        <label for="file">File</label>
-                        <input type="file" name="file" value="" required>
+                        <br><br>
+                        <b><h6><label for="file">Upload Notes</label></h6></b>
+                        <input type="file" name="file" value="" required><br>
                       </form>
-                    <form action="/action_page.php">
-                     <label for="birthday">Assignment Due Date</label>
-                     <input type="date" id="date" name="date">
-                     <input type="submit" value="Submit">
-                    </form>
+
 
                   </div>
               </div>
@@ -199,25 +192,23 @@
       <div class="container-fluid">
           <div class="row">
               <div class="col-md-4">
-                  <div class="best-offer-left-content" style=	"background-image: url({{url_for('static', filename='books.jpg')}});">
+                  <div class="best-offer-left-content" style=	"background-image: url({{url_for('static', filename='y2.jpg')}});">
                       <div style="text-align: center;
                     	margin: 0 auto;
                     	width: 140px;
                     	height: 140px;
                     	line-height: 140px;
-                    	background-color: transparent;"><img src="{{url_for('static', filename='icon3.png')}}" width=100% height=100% alt=""></div>
-                      <h4>Upload Essay Topic</h4>
+                    	background-color: transparent;"><div style="margin-top: -126px"><img src="{{url_for('static', filename='icon3.png')}}" width=100% height=100% alt=""></div></div>
+                      <div style="margin-top: -5px"><h2 style="color=white">ESSAYS</h2></div>
                       <form action="" method="post">
-                        <label for="text" >Topic Name</label>
+                        <b><h6><label for="text" >Essay Topic</label></h6></b>
                         <input type="text" name="topic" value="" required>
                       </form>
 
-                      <form action="your-url" method="post" enctype="multipart/form-data">
-                        <label for="file">File</label>
-                        <input type="file" name="file" value="" required>
-                      </form>
+
                     <form action="/action_page.php">
-                     <label for="birthday">Assignment Due Date</label>
+                      <br>
+                     <b><h6><label for="birthday">Essay Due-Date</label></h6></b>
                      <input type="date" id="date" name="date">
                      <input type="submit" value="Submit">
                     </form>
@@ -226,10 +217,14 @@
                   </div>
               </div>
               <div class="col-md-8">
-                  <div class="best-offer-right-content">
+                  <div class="best-offer-right-content" style=	"background-image: url({{url_for('static', filename='th (1).jpg')}});">>
                       <div class="row">
                           <div class="col-md-6 col-sm-12">
-                              <h2>View Students Submissions</h2>
+                            <div class="col-md-6 col-sm-12">
+                            <div style="margin-top: -95px">
+                                <img src="{{url_for('static', filename='icon2.png')}}" height=30% width=30% alt="">
+                            </div>
+                              <h2>VIEW STUDENTS SUBMISSIONS</h2>
                               <div class="container">
                                 <div class="row col-md-6 col-md-offset-2 custyle">
                                 <table class="table table-striped custab" align="center">
@@ -237,7 +232,7 @@
                                 <thead>
                                     <tr>
                                         <th>Roll Number</th>
-                                        <th>Assignment Name</th>
+                                        <th>Essay Topic</th>
                                         <th>Submitted on</th>
                                         <th>Plagiarism%</th>
                                         <th>Grade </th>
@@ -250,7 +245,7 @@
                                             <td>a</td>
                                             <td>a</td>
                                             <td>a</td>
-                                            <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                                            <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Accept grade</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Edit Grade</a></td>
                                         </tr>
                                         <tr>
                                             <td>b</td>
@@ -258,7 +253,7 @@
                                             <td>b</td>
                                             <td>b</td>
                                             <td>b</td>
-                                            <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                                            <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Accept Grade</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Edit Grade</a></td>
                                         </tr>
                                         <tr>
                                            <td>c</td>
@@ -266,7 +261,7 @@
                                            <td>c</td>
                                            <td>c</td>
                                            <td>c</td>
-                                           <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                                           <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Accept Grade</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Edit Grade</a></td>
                                        </tr>
                                        <tr>
                                           <td>c</td>
@@ -274,7 +269,7 @@
                                           <td>c</td>
                                           <td>c</td>
                                           <td>c</td>
-                                          <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                                          <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Accept Grade</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Edit Grade</a></td>
                                       </tr>
                                       <tr>
                                          <td>c</td>
@@ -282,17 +277,15 @@
                                          <td>c</td>
                                          <td>c</td>
                                          <td>c</td>
-                                         <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                                         <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Accept Grade</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Edit Grade</a></td>
                                      </tr>
 
                                </table>
                                </div>
                               </div>
+                              </div>
+                          </div>
 
-                          </div>
-                          <div class="col-md-6 col-sm-12">
-                              <img src="{{url_for('static', filename='icon2.png')}}" height=30% width=40% alt="">
-                          </div>
                       </div>
                   </div>
               </div>
