@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, abort, session, jsonify
-import uuid, os, json, ast
+import uuid, os, json
 
 app = Flask(__name__)
 app.secret_key = 'h432hi5ohi3h5i5hi3o2hi'
@@ -77,7 +77,6 @@ def logout_student():
 def login_teacher():
     return render_template('login_teacher.html')
 
-
 @app.route('/register_teacher', methods = ['POST'])
 def register_teacher():
     if request.form['password'] != request.form['password2']:
@@ -109,7 +108,6 @@ def register_teacher():
         flash('You have been registered and logged in successfully.')
     return redirect(url_for('teacher_dashboard'))
 
-
 @app.route('/loginTeacher', methods = ['POST'])
 def loginTeacher():
     email = request.form['email']
@@ -136,7 +134,6 @@ def logout_teacher():
     flash('Logged out successfully.')
     return redirect(url_for('login_teacher'))
 
-
 @app.route('/student_dashboard')
 def student_dashboard():
     if not session.get('StudentLoggedIn'):
@@ -145,7 +142,6 @@ def student_dashboard():
     with open('student_credentials.json') as sc:
         credentials = json.load(sc)
     return render_template('student_dashboard.html', name = credentials[session['StudentEmail']]['name'])
-
 
 @app.route('/teacher_dashboard')
 def teacher_dashboard():
