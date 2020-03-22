@@ -64,8 +64,9 @@
       thead, tbody { display: block; }
 
       tbody {
-          height: 100px;       /* Just for the demo          */
+          height: 180px;
           overflow-y: auto;    /* Trigger vertical scroll    */
+
           overflow-x: hidden;  /* Hide the horizontal scroll */
       }
   </style>
@@ -122,7 +123,7 @@
                                 <table class="table table-striped" >
                                   <thead>
                                     <tr>
-                                      <th width="auto" >Topic</th>
+                                      <th >Topic</th>
                                       <th  >Uploaded on</th>
                                       <th  >Summary PDF</th>
                                       <th  >Assignment PDF</th>
@@ -130,58 +131,52 @@
                                   </thead>
                                   <tbody>
                                     <tr>
-                                      <td width = 8%>1</td>
-                                      <td width = 4%>Mark</td>
-                                      <td width = 8%>Otto</td>
-                                      <td width = 8%>@mdo</td>
+                                      <td width = "340px">1</td>
+                                      <td width = "200px"%>Mark</td>
+                                      <td width = "250px">Otto</td>
+                                      <td width = "250px">@mdo</td>
                                     </tr>
                                     <tr>
-                                      <td width = 8%>1</td>
-                                      <td width = 4%>Mark</td>
-                                      <td width = 8%>Otto</td>
-                                      <td width = 8%>@mdo</td>
+                                      <td width = "340px">1</td>
+                                      <td width = "200px"%>Mark</td>
+                                      <td width = "250px">Otto</td>
+                                      <td width = "250px">@mdo</td>
                                     </tr>
                                     <tr>
-                                      <td width = 8%>1</td>
-                                      <td width = 4%>Mark</td>
-                                      <td width = 8%>Otto</td>
-                                      <td width = 8%>@mdo</td>
+                                      <td width = "340px">1</td>
+                                      <td width = "200px"%>Mark</td>
+                                      <td width = "250px">Otto</td>
+                                      <td width = "250px">@mdo</td>
                                     </tr>
                                     <tr>
-                                      <td width = 8%>1</td>
-                                      <td width = 4%>Mark</td>
-                                      <td width = 8%>Otto</td>
-                                      <td width = 8%>@mdo</td>
+                                      <td width = "340px">1</td>
+                                      <td width = "200px"%>Mark</td>
+                                      <td width = "250px">Otto</td>
+                                      <td width = "250px">@mdo</td>
                                     </tr>
                                     <tr>
-                                      <td width = 8%>1</td>
-                                      <td width = 4%>Mark</td>
-                                      <td width = 8%>Otto</td>
-                                      <td width = 8%>@mdo</td>
+                                      <td width = "340px">1</td>
+                                      <td width = "200px"%>Mark</td>
+                                      <td width = "250px">Otto</td>
+                                      <td width = "250px">@mdo</td>
                                     </tr>
                                     <tr>
-                                      <td width = 8%>1</td>
-                                      <td width = 4%>Mark</td>
-                                      <td width = 8%>Otto</td>
-                                      <td width = 8%>@mdo</td>
+                                      <td width = "340px">1</td>
+                                      <td width = "200px"%>Mark</td>
+                                      <td width = "250px">Otto</td>
+                                      <td width = "250px">@mdo</td>
                                     </tr>
                                     <tr>
-                                      <td width = 8%>1</td>
-                                      <td width = 4%>Mark</td>
-                                      <td width = 8%>Otto</td>
-                                      <td width = 8%>@mdo</td>
+                                      <td width = "340px">1</td>
+                                      <td width = "200px"%>Mark</td>
+                                      <td width = "250px">Otto</td>
+                                      <td width = "250px">@mdo</td>
                                     </tr>
                                     <tr>
-                                      <td width = 8%>1</td>
-                                      <td width = 4%>Mark</td>
-                                      <td width = 8%>Otto</td>
-                                      <td width = 8%>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                      <td width = 8%>1</td>
-                                      <td width = 4%>Mark</td>
-                                      <td width = 8%>Otto</td>
-                                      <td width = 8%>@mdo</td>
+                                      <td width = "340px">1</td>
+                                      <td width = "200px"%>Mark</td>
+                                      <td width = "250px">Otto</td>
+                                      <td width = "250px">@mdo</td>
                                     </tr>
 
                                   </tbody>
@@ -228,15 +223,11 @@
                     	background-color: transparent;"><div style="margin-top: -126px"><img src="{{url_for('static', filename='icon3.png')}}" width=100% height=100% alt=""></div></div>
                       <div style="margin-top: -5px"><h2 style="color:white">ESSAYS</h2></div>
                       <form action="" method="post">
-                        <b><h6><label for="text"  >Essay Topic</label></h6></b>
+                        <b><h6><label  >Essay Topic</label></h6></b>
                         <input type="text" name="topic" value="" required>
-                      </form>
-
-
-                    <form action="/action_page.php">
-                      <br>
-                     <b><h6><label for="birthday">Essay Due-Date</label></h6></b>
-                     <input type="date" id="date" name="date">
+                      <br><br>
+                     <b><h6><label >Essay Due-Date</label></h6></b>
+                     <input type="date" id="date" name="date"><br><br>
                      <input type="submit" value="Submit">
                     </form>
 
@@ -275,6 +266,25 @@
                                         <td width = 8% class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Accept grade</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Edit Grade</a></td>
 
                                       </tr>
+                                      <tr>
+                                        <td width=1%>a</td>
+                                        <td width = 5%>a</td>
+                                        <td width = 4%>a</td>
+                                        <td width = 6%>a</td>
+                                        <td width = 6%>a</td>
+                                        <td width = 8% class="text-center">Accepted <img src="{{url_for('static', filename='check.png')}}" height=5%></td>
+
+                                      </tr>
+                                      <tr>
+                                        <td width=1%>a</td>
+                                        <td width = 5%>a</td>
+                                        <td width = 4%>a</td>
+                                        <td width = 6%>a</td>
+                                        <td width = 6%>a</td>
+                                        <td width = 8% class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Accept grade</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Edit Grade</a></td>
+
+                                      </tr>
+
                                       <tr>
                                         <td width=1%>a</td>
                                         <td width = 5%>a</td>
