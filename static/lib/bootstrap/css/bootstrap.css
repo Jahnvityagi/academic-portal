@@ -1737,7 +1737,7 @@ pre code {
 }
 
 .table-dark.table-striped tbody tr:nth-of-type(odd) {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #2eca6a;
 }
 
 .table-dark.table-hover tbody tr:hover {
