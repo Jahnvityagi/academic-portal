@@ -46,6 +46,54 @@
     border: 1px solid black;
   }
 
+  #schedule {
+    padding: 60px 0 60px 0;
+  }
+
+  #schedule .nav-tabs {
+    text-align: center;
+    margin: auto;
+    display: block;
+    border-bottom: 0;
+    margin-bottom: 30px;
+  }
+
+  #schedule .nav-tabs li {
+    display: inline-block;
+    margin-bottom: 0;
+  }
+
+  #schedule .nav-tabs a {
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    background-color: #A9A9A9;
+    color: #fff;
+    padding: 10px 60px;
+  }
+
+  @media (max-width: 991px) {
+    #schedule .nav-tabs a {
+      padding: 8px 60px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #schedule .nav-tabs a {
+      padding: 8px 50px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    #schedule .nav-tabs a {
+      padding: 8px 30px;
+    }
+  }
+
+  #schedule .nav-tabs a.active {
+    background-color: #2eca6a;
+    color: #fff;
+  }
 
   </style>
 </head>
@@ -90,12 +138,11 @@
   <main role="main">
 
   <section class="jumbotron text-center " style="margin-top:8%">
-  <div class="container">
-    <h1>Professor Ela Kumar</h1>
-    <p class="lead text-muted">Designation:
-
-Professor & Head <li> Areas of Specialization:
-Artificial Intelligence, Natural Language Processing, Semantic Web , Web Technology</li> </p>
+  <div class="container" style="max-width:60rem">
+    <h1>Professor {{name}}</h1>
+    <p class="lead text-muted">Designation:  {{dsg}} <br>
+      Specialization:  {{spc}}
+    </p>
 
 <!-- ======= Buttons Section ======= -->
 <section id="schedule" class="section-with-bg">
@@ -112,10 +159,10 @@ Artificial Intelligence, Natural Language Processing, Semantic Web , Web Technol
 
     <ul class="nav nav-tabs" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" href="#day-1" role="tab" data-toggle="tab" style="background-color:#2eca6a"> Notes</a>
+        <a class="nav-link active" href="#day-1" role="tab" data-toggle="tab" > Notes</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#day-2" role="tab" data-toggle="tab" style="background-color:#2eca6a" > Essays </a>
+        <a class="nav-link" href="#day-2" role="tab" data-toggle="tab" > Essays </a>
       </li>
     </ul>
 

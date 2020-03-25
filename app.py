@@ -152,6 +152,10 @@ def teacher_dashboard():
         credentials = json.load(tc)
     return render_template('teacher_dashboard.html')
 
-@app.route('/ela_notes')
-def ela_notes():
-    return render_template('ela_notes.html')
+@app.route('/teacher_notes')
+def teacher_notes():
+    teacher_email=request.args.get('teacher_email')
+    with open('teacher_credentials.json') as tc:
+        credentials = json.load(tc)
+    details = credentials[teacher_email]
+    return render_template('teacher_notes.html', name=details['name'], spc = details['specialization'], dsg = details['designation'])
