@@ -159,3 +159,7 @@ def teacher_notes():
         credentials = json.load(tc)
     details = credentials[teacher_email]
     return render_template('teacher_notes.html', name=details['name'], spc = details['specialization'], dsg = details['designation'])
+
+@app.route('/teacher_dashboard2')
+def teacher_dashboard2():
+    return render_template('teacher_dashboard2.html')
