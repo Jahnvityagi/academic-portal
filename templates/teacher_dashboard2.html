@@ -19,7 +19,7 @@
   <title>Academic Portal</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="" name="keywords">
-  
+
 
 
   <!-- Favicons -->
@@ -86,13 +86,197 @@
           overflow-y: auto;    /* Trigger vertical scroll    */
           overflow-x: hidden;  /* Hide the horizontal scroll */
       }
-      .left-banner-content .line-dec {
-      	width: 130px;
-      	height: 4px;
-      	margin-top: 20px;
-      	margin-bottom: 30px;
-      	background-color: #f4bc51;
-      }
+
+
+        #schedule {
+          padding: 60px 0 60px 0;
+        }
+
+        #schedule .nav-tabs {
+          text-align: center;
+          margin: auto;
+          display: block;
+          border-bottom: 0;
+          margin-bottom: 30px;
+        }
+
+        #schedule .nav-tabs li {
+          display: inline-block;
+          margin-bottom: 0;
+        }
+
+        #schedule .nav-tabs a {
+          border: none;
+          border-radius: 50px;
+          font-weight: 600;
+          background-color: #A9A9A9;
+          color: #fff;
+          padding: 10px 60px;
+        }
+
+
+
+        #schedule .nav-tabs a.active {
+          background-color: #2eca6a;
+          color: #fff;
+        }
+
+
+        /*--
+        Author: W3layouts
+        Author URL: http://w3layouts.com
+        License: Creative Commons Attribution 3.0 Unported
+        License URL: http://creativecommons.org/licenses/by/3.0/
+        --*/
+
+
+        h1,h2,h3,h4,h5,h6{
+        	margin:0;
+        	font-weight:400;
+            transition:0.5s all;
+        	-webkit-transition:0.5s all;
+        	-moz-transition:0.5s all;
+        	-o-transition:0.5s all;
+        	-ms-transition:0.5s all;
+
+        }
+        @font-face{
+        	font-family:'Snippet';
+        	src: url("{{url_for('static', filename='lib/Snippet.ttf')}}");
+        }
+        .clear {
+        	clear:both;
+        }
+
+
+        /*--end reset--*/
+        /*--header--*/
+        .main-container {
+            padding: 0;
+        	background-image: url("{{url_for('static', filename='books.jpg')}}");
+
+        }
+
+        /*--main--*/
+        .main-content-agile {
+            margin: 0 auto;
+            background:rgba(12, 12, 12, 0.91);
+            width: 34%;
+        }
+        .w3ls-pro h2 {
+            font-size: 1.7em;
+            color: #fcb50e;
+            letter-spacing: 3px;
+            padding: 1em 0;
+            font-weight: 600;
+        	text-transform:uppercase;
+        	font-family: 'Snippet', sans-serif;
+        }
+        .sub-main-w3ls{
+        	position:relative;
+        	 padding: 2.5em;
+        }
+        .sub-main-w3ls input[type="email"], .sub-main-w3ls input[type="password"] {
+        	outline: none;
+            font-size: 1em;
+            border: none;
+            background: #eeeeee;
+            width: 82.5%;
+            color: #000;
+            padding: 1em 3em 1em 1em;
+            letter-spacing: 1px;
+            font-family: 'Snippet', sans-serif;
+        }
+        .sub-main-w3ls input[type="password"]{
+        	margin-top: 1.5em;
+        }
+        .sub-main-w3ls input[type="submit"] {
+            background: url("{{url_for('static', filename='arrow.png')}}") no-repeat 40% 50%;
+            border: 2px solid #fff;
+            outline: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            margin-top: 2.5em;
+        }
+
+        span.icon1, span.icon2 {
+            color: #f1a008;
+            font-size: 1em;
+            position: absolute;
+            display: block;
+            text-align: center;
+        }
+        span.icon1 {
+            top: 12%;
+        }
+        span.icon2 {
+            top: 28%;
+        }
+        span.icon1, span.icon2{
+        	right: 4.2em;
+        }
+        .checkbox-w3 {
+            margin:2em 0 2.5em;
+        }
+        span.check-w3 {
+            float: left;
+            color: #fff;
+            font-size: 1em;
+            letter-spacing: 1px;
+        	font-family: 'Snippet', sans-serif;
+        }
+        .checkbox-w3 a {
+            color: #fff;
+            float: right;
+            font-size: 1em;
+        	text-decoration: none;
+        	font-family: 'Snippet', sans-serif;
+        }
+        /*-- social-icons --*/
+        .social-icons ul li {
+            display: inline-block;
+        }
+        .social-icons ul li i {
+            font-size: 0.9em;
+            line-height: 2.8em;
+            text-align: center;
+            margin: 0 5px;
+            width: 38px;
+            height: 38px;
+            border-radius: 10%;
+            color: #fff;
+            background: transparent;
+            border: 3px solid #efe8e8;
+        }
+        .social-icons i.fa.fa-facebook:hover {
+            background: #3b5998;
+            text-shadow: 0px 0px 15px #3b5998;
+            transition: all 0.5s cubic-bezier(0.27, 0.38, 0.58, 1);
+        }
+        .social-icons i.fa.fa-twitter:hover{
+        	background: #1da1f2;
+            text-shadow: 0px 0px 15px #1da1f2;
+            transition: all 0.5s cubic-bezier(0.27, 0.38, 0.58, 1);
+        }
+        .social-icons i.fa.fa-google-plus:hover{
+        	background: #dd4b39;
+            text-shadow: 0px 0px 15px #dd4b39;
+            transition: all 0.5s cubic-bezier(0.27, 0.38, 0.58, 1);
+
+        }
+        .social-icons  i.fa.fa-pinterest:hover{
+        	background: #bd081c;
+            text-shadow: 0px 0px 15px #bd081c;
+            transition: all 0.5s cubic-bezier(0.27, 0.38, 0.58, 1);
+
+        }
+        /*--social-icons--*/
+
+
+
 
 
   </style>
@@ -134,8 +318,8 @@
     </nav>
   </div>
 
-  <section id="schedule" class="section-with-bg">
-    <div class="container wow fadeInUp">
+  <section id="schedule" >
+    <div class="container ">
       <div class="section-header">
         <br>
 
@@ -146,11 +330,12 @@
       </div>
 
       <ul class="nav nav-tabs" role="tablist">
+
         <li class="nav-item">
-          <a class="nav-link active" href="#day-1" role="tab" data-toggle="tab" > Previous Uploads</a>
+          <a class="nav-link active" href="#day-2" role="tab" data-toggle="tab" > Upload Content</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#day-2" role="tab" data-toggle="tab" > Upload Content</a>
+          <a class="nav-link " href="#day-1" role="tab" data-toggle="tab" > Previous Uploads</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#day-3" role="tab" data-toggle="tab" > Essay</a>
@@ -163,7 +348,7 @@
       <div class="tab-content row justify-content-center">
 
         <!-- Schdule Day 1 -->
-        <div role="tabpanel" class="col-lg-9 tab-pane fade show active" id="day-1">
+        <div role="tabpanel" class="col-lg-9 tab-pane fade show " id="day-1">
         <div class="row schedule-item">
 
               <br><br><br>
@@ -239,9 +424,9 @@
         <!-- End Schdule Day 1 -->
 
         <!-- Schdule Day 2 -->
-        <div role="tabpanel" class="col-lg-9  tab-pane fade" id="day-2">
-        <div class="row schedule-item">
-                      <br>
+        <div role="tabpanel" class=" col-lg-12 tab-pane fade show active" id="day-2">
+
+                      <!-- <br>
                       <form action="" method="post">
                         <br>
                         <b><h5><label for="text">Topic Name</label></h5></b>
@@ -250,10 +435,40 @@
                         <b><h5><label for="file">Upload Notes</label></h5></b>
                         <input type="file" name="file" value="" required style="margin-left:40%;"><br><br>
                          <input type="submit" class="btn btn-default" value="Submit">
-                      </form>
+                      </form> -->
+                      	<div class="main-container">
 
-      </div>
-      </div>
+                      		<!--main-->
+                      		<div class="main-content-agile">
+                      			<div class="w3ls-pro">
+                      				<h2 align="center">Login Now</h2>
+                      			</div>
+                      			<div class="sub-main-w3ls">
+                      				<form action="#" method="post">
+                      					<input placeholder="Enter your E-mail" name="enter mail" type="email" required="">
+                      					<span class="icon1"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                      					<input  placeholder="Enter Password" name="Password" type="password" required="">
+                      					<span class="icon2"><i class="fa fa-unlock-alt" aria-hidden="true"></i></span>
+                                <div style="text-align :center;">
+                      					<div class="social-icons" style="margin-top:20%;">
+                      							<ul>
+                      								<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                      								<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                      								<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                      							</ul>
+                      						</div>
+
+                      					<input type="submit" value="">
+                                </div>
+                      				</form>
+                      			</div>
+                      		</div>
+                      		<!--//main-->
+                      	</div>
+        </div>
+
+
+
 
 <!-- Day 3-->
   <div role="tabpanel" class="col-lg-9  tab-pane fade" id="day-3">
