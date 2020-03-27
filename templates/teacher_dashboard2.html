@@ -122,14 +122,6 @@
         }
 
 
-        /*--
-        Author: W3layouts
-        Author URL: http://w3layouts.com
-        License: Creative Commons Attribution 3.0 Unported
-        License URL: http://creativecommons.org/licenses/by/3.0/
-        --*/
-
-
         h1,h2,h3,h4,h5,h6{
         	margin:0;
         	font-weight:400;
@@ -148,16 +140,12 @@
         	clear:both;
         }
 
-
-        /*--end reset--*/
-        /*--header--*/
         .main-container {
             padding: 0;
         	background-image: url("{{url_for('static', filename='books.jpg')}}");
 
         }
 
-        /*--main--*/
         .main-content-agile {
             margin: 0 auto;
             background:rgba(12, 12, 12, 0.91);
@@ -174,22 +162,50 @@
         }
         .sub-main-w3ls{
         	position:relative;
-        	 padding: 2.5em;
+        	 padding: 1em 2.5em 2.5em 2.5em;
         }
-        .sub-main-w3ls input[type="email"], .sub-main-w3ls input[type="password"] {
+        .sub-main-w3ls input[type="text"] {
         	outline: none;
             font-size: 1em;
             border: none;
             background: #eeeeee;
-            width: 82.5%;
+            width: 100%;
             color: #000;
             padding: 1em 3em 1em 1em;
             letter-spacing: 1px;
-            font-family: 'Snippet', sans-serif;
+
         }
-        .sub-main-w3ls input[type="password"]{
-        	margin-top: 1.5em;
+        .sub-main-w3ls input[type="file"] {
+        	outline: none;
+            font-size: 1em;
+            border: none;
+            color: #fff;
+            padding: 0em 3em 1em 0em;
+
         }
+        .sub-main-w3ls label{
+          font-family: 'Snippet', sans-serif;
+          color: white;
+        }
+        .sub-main-w3ls select {
+        	outline: none;
+            font-size: 1em;
+            border: none;
+            width: 100%;
+            color: #000;
+            padding: 0em 3em 1em 0em;
+        }
+        .sub-main-w3ls input[type="date"] {
+          outline: none;
+            font-size: 1em;
+            border: none;
+            background: #eeeeee;
+            width: 100%;
+            color: #000;
+            padding: 1em 3em 1em 1em;
+            letter-spacing: 1px;
+        }
+
         .sub-main-w3ls input[type="submit"] {
             background: url("{{url_for('static', filename='arrow.png')}}") no-repeat 40% 50%;
             border: 2px solid #fff;
@@ -418,16 +434,6 @@
         <!-- Schdule Day 2 -->
         <div role="tabpanel" class=" col-lg-12 tab-pane fade show active" id="day-2">
 
-                      <!-- <br>
-                      <form action="" method="post">
-                        <br>
-                        <b><h5><label for="text">Topic Name</label></h5></b>
-                        <input type="text" name="topic" value="" required>
-                        <br><br>
-                        <b><h5><label for="file">Upload Notes</label></h5></b>
-                        <input type="file" name="file" value="" required style="margin-left:40%;"><br><br>
-                         <input type="submit" class="btn btn-default" value="Submit">
-                      </form> -->
                       	<div class="main-container">
 
                       		<!--main-->
@@ -436,22 +442,22 @@
                       				<h2 align="center">Upload your Notes</h2>
                       			</div>
                       			<div class="sub-main-w3ls">
-                      				<form action="#" method="post">
+                      				<form action="" method="post">
                                 <label>Enter your topic name:</label>
-                      					<input  name="enter mail" type="text" required="">
-                      					<!---<span class="icon1"><i class="fa fa-envelope" aria-hidden="true"></i></span>-->
+                      					<input  type="text" required="">
                                 <br><br>
-                                <label>Select exam topic</label><br>
+                                 <label>Select exam topic:</label><br>
                                 <select id="exam" name="exam">
                                   <option value="Minor1">Minor 1</option>
                                   <option value="minor2">Minor 2</option>
                                   <option value="major">Major</option>
-                                  <option value="audi">Lab experiment</option
+                                  <option value="audi">Lab experiment</option>
                                   </select><br>
 
-                                  <br><br><label>Upload document</label>
-                      					<input  placeholder="Upload document" name="Password" type="file" required="">
-                      					<span class="icon1"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                                  <br>
+
+                                <label>Upload document:</label>
+                      					<input  type="file" required="">
                                 <div style="text-align :center;">
                                   			<input type="submit" value="">
                       					<div class="social-icons" style="margin-top:20%;">
@@ -484,14 +490,14 @@
                     <div class="sub-main-w3ls">
                       <form action="#" method="post">
                         <label>Enter Essay Topic</label>
-                        <input name="enter mail" type="text" required="">
-                        <span class="icon1"><i class="fa fa-envelope" aria-hidden="false"></i></span><br><br>
+                        <input name="enter mail" type="text" placeholder="Essay topic" required="">
+                        <br><br>
 
                         <label>Enter Word Limit</label>
-                        <input  placeholder="Enter word limit" name="Password1" type="text" required="">
+                        <input  placeholder="Word limit" name="Password1" type="text" required="">
                       <br><br>
                       <label>Select Submission Deadline</label>
-                          <input name="Password2" type="date" required="">
+                          <input placeholder="Deadline" type="date" required="">
                         <div style="text-align :center;">
                                 <input type="submit" value="">
                         <div class="social-icons" style="margin-top:20%;">
