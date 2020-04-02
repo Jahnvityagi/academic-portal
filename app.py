@@ -148,8 +148,6 @@ def teacher_dashboard():
     if not session.get('TeacherLoggedIn'):
         flash('Please login to continue.')
         return redirect(url_for('login_teacher'))
-    with open('teacher_credentials.json') as tc:
-        credentials = json.load(tc)
     return render_template('teacher_dashboard.html')
 
 @app.route('/teacher_notes')
