@@ -1,8 +1,20 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, abort, session, jsonify
-import uuid, os, json
+import uuid, os, json, dropbox
 
 app = Flask(__name__)
 app.secret_key = 'h432hi5ohi3h5i5hi3o2hi'
+API_KEY = ''
+dbx_client = dropbox.Dropbox(API_KEY)
+
+class TransferData:
+    def __init__(self, access_token):
+        self.access_token = access_token
+
+    def upload_file(self, f, file_to):
+        dbx = dropbox.Dropbox(self.access_token)
+        dbx.files_upload(f.read(), file_to)
+
+transferData = TransferData(API_KEY)
 
 @app.route('/')
 def home():
@@ -99,7 +111,8 @@ def register_teacher():
         'name' : full_name,
         'password' : pwd,
         'specialization' : spc,
-        'designation' : dsg
+        'designation' : dsg,
+        'notes' : []
         }
         with open('teacher_credentials.json', 'w') as tc:
             json.dump(credentials, tc, indent=4)
@@ -148,7 +161,19 @@ def teacher_dashboard():
     if not session.get('TeacherLoggedIn'):
         flash('Please login to continue.')
         return redirect(url_for('login_teacher'))
-    return render_template('teacher_dashboard.html')
+    credentials = {}
+    with open('teacher_credentials.json') as tc:
+        credentials = json.load(tc)
+    notes_details = []
+    for notes in credentials[session['TeacherEmail']]["notes"]:
+        name = notes[2]
+        filename = notes[0]
+        notes_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).link
+        summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes[0]).link
+        assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes[0]).link
+        timestamp = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).metadata.client_modified
+        notes_details.append([notes_link, summary_link, assignment_link, name, timestamp, filename])
+    return render_template('teacher_dashboard.html', notes = notes_details)
 
 @app.route('/teacher_notes')
 def teacher_notes():
@@ -158,6 +183,34 @@ def teacher_notes():
     details = credentials[teacher_email]
     return render_template('teacher_notes.html', name=details['name'], spc = details['specialization'], dsg = details['designation'])
 
-@app.route('/teacher_dashboard2')
-def teacher_dashboard2():
-    return render_template('teacher_dashboard2.html')
+def generateSummary(notes):
+    return notes
+
+def generateAssignment(notes):
+    return notes
+
+@app.route('/upload_teacher_notes', methods = ['POST'])
+def upload_teacher_notes():
+    if not session.get('TeacherLoggedIn'):
+        flash('Please login to continue.')
+        return redirect(url_for('login_teacher'))
+    topic = request.form['topic']
+    exam = request.form['exam']
+    notes = request.files['file']
+    file_to = '/academic_portal_data/teacher_uploads/' +  notes.filename
+    transferData.upload_file(notes, file_to)
+    email = session['TeacherEmail']
+    credentials = {}
+    with open('teacher_credentials.json') as tc:
+        credentials = json.load(tc)
+    credentials[email]["notes"].append([notes.filename, exam, topic])
+    with open('teacher_credentials.json', 'w') as tc:
+        json.dump(credentials, tc, indent=4)
+    summary = generateSummary(notes)
+    assignment = generateAssignment(notes)
+    summary_to = '/academic_portal_data/teacher_uploads/generated_summaries/' +  summary.filename
+    assignment_to = '/academic_portal_data/teacher_uploads/generated_assignments/' +  assignment.filename
+    transferData.upload_file(summary, summary_to)
+    transferData.upload_file(assignment, assignment_to)
+    flash('Uploaded successfully.')
+    return redirect(url_for('teacher_dashboard'))

@@ -20,8 +20,6 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="" name="keywords">
 
-
-
   <!-- Favicons -->
   <link href="{{url_for('static', filename='favicon.png')}}" rel="icon">
   <link href="{{url_for('static', filename='apple-touch-icon.png')}}" rel="apple-touch-icon">
@@ -81,11 +79,6 @@
 
       thead, tbody { display: block; }
 
-      tbody {
-          height: 200px;
-          overflow-y: auto;    /* Trigger vertical scroll    */
-          overflow-x: hidden;  /* Hide the horizontal scroll */
-      }
 
 
         #schedule {
@@ -297,7 +290,7 @@
           <span></span>
         </button>
         <img class="navbar-brand" src="{{url_for('static', filename='LOGO1.png')}}" height=13% width=13%>
-        <a class="navbar-brand text-brand" href="{{url_for('home')}}">IGDTUW<span class="color-b">SOMETHING</span></a>
+        <a class="navbar-brand text-brand" href="{{url_for('home')}}">IGDTUW<span class="color-b">GUIDE</span></a>
         <button type="button" class="btn btn-link nav-search navbar-toggle-box-collapse d-md-none" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-expanded="false">
           <span class="fa fa-search" aria-hidden="true"></span>
         </button>
@@ -355,96 +348,52 @@
 
       <div class="tab-content row justify-content-center">
 
-        <!-- Schdule Day 1 -->
         <div role="tabpanel" class="col-lg-12 tab-pane fade show " id="day-1">
         <div class="row schedule-item">
 
               <br><br><br>
               <div class="container" >
-                <div class="table-responsive" >
+                <div class="display-table" >
                     <br><br>
+                  {% if notes|length > 0 %}
                   <table class="table2 table-striped" >
-                    <thead>
+                    <tbody>
                       <tr>
                         <th class="th2">Topic</th>
                         <th  class="th2">Uploaded on</th>
-                        <th  class="th2">Summary PDF</th>
-                        <th  class="th2">Questions PDF</th>
+                        <th class="th2">Uploaded Content</th>
+                        <th  class="th2">Generated summary</th>
+                        <th  class="th2">Generated assignment</th>
                       </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td class="td2" width = "340px">1</td>
-                        <td class="td2" width = "200px"%>Mark</td>
-                        <td class="td2" width = "250px">Otto</td>
-                        <td class="td2" width = "250px">@mdo</td>
-                      </tr>
-                      <tr>
-                        <td class="td2" width = "340px">1</td>
-                        <td class="td2" width = "200px"%>Mark</td>
-                        <td class="td2" width = "250px">Otto</td>
-                        <td class="td2" width = "250px">@mdo</td>
-                      </tr>
-                      <tr>
-                        <td class="td2" width = "340px">1</td>
-                        <td class="td2" width = "200px"%>Mark</td>
-                        <td class="td2" width = "250px">Otto</td>
-                        <td class="td2" width = "250px">@mdo</td>
-                      </tr>
-                      <tr>
-                        <td class="td2" width = "340px">1</td>
-                        <td class="td2" width = "200px"%>Mark</td>
-                        <td class="td2" width = "250px">Otto</td>
-                        <td class="td2" width = "250px">@mdo</td>
-                      </tr>
-                      <tr>
-                        <td class="td2" width = "340px">1</td>
-                        <td class="td2" width = "200px"%>Mark</td>
-                        <td class="td2" width = "250px">Otto</td>
-                        <td class="td2" width = "250px">@mdo</td>
-                      </tr>
-                      <tr>
-                        <td class="td2" width = "340px">1</td>
-                        <td class="td2" width = "200px"%>Mark</td>
-                        <td class="td2" width = "250px">Otto</td>
-                        <td class="td2" width = "250px">@mdo</td>
-                      </tr>
-                      <tr>
-                        <td class="td2" width = "340px">1</td>
-                        <td class="td2" width = "200px"%>Mark</td>
-                        <td class="td2" width = "250px">Otto</td>
-                        <td class="td2" width = "250px">@mdo</td>
-                      </tr>
-                      <tr>
-                        <td class="td2" width = "340px">1</td>
-                        <td class="td2" width = "200px"%>Mark</td>
-                        <td class="td2" width = "250px">Otto</td>
-                        <td class="td2" width = "250px">@mdo</td>
-                      </tr>
-
+                      {% for n in notes %}
+                        <tr>
+                          <td class="td2" width = "340px">{{n[3]}}</td>
+                          <td class="td2" width = "180px">{{n[4]}}</td>
+                          <td class="td2" width = "200px"%><a href="{{n[0]}}"> {{n[5]}}</a></td>
+                          <td class="td2" width = "200px"%><a href="{{n[1]}}"> Summary for {{n[5]}} </a></td>
+                          <td class="td2" width = "200px"%><a href="{{n[2]}}"> Assignment for {{n[5]}} </a></td>
+                        </tr>
+                      {% endfor %}
                     </tbody>
                 </table>
+                {% else %}
+                    <h1 style="margin-left:30%"> You have no uploads. </h1>
+                {% endif %}
                </div>
             </div>
             </div>
                 </div>
 
-        <!-- End Schdule Day 1 -->
-
-        <!-- Schdule Day 2 -->
-        <div role="tabpanel" class=" col-lg-12 tab-pane fade show active" id="day-2">
-
+                <div role="tabpanel" class=" col-lg-12 tab-pane fade show active" id="day-2">
                       	<div class="main-container">
-
-                      		<!--main-->
                       		<div class="main-content-agile">
                       			<div class="w3ls-pro">
-                      				<h2 align="center">Upload your Notes</h2>
+                      				<h2 align="center">Upload your notes</h2>
                       			</div>
                       			<div class="sub-main-w3ls">
-                      				<form action="" method="post">
+                      				<form action="upload_teacher_notes" method="post" enctype="multipart/form-data">
                                 <label>Enter your topic name:</label>
-                      					<input  type="text" required="">
+                      					<input  type="text" name="topic" id="topic" required>
                                 <br><br>
                                  <label>Select exam topic:</label><br>
                                 <select id="exam" name="exam">
@@ -452,12 +401,9 @@
                                   <option value="minor2">Minor 2</option>
                                   <option value="major">Major</option>
                                   <option value="audi">Lab experiment</option>
-                                  </select><br>
-
-                                  <br>
-
+                                  </select><br><br>
                                 <label>Upload document:</label>
-                      					<input  type="file" required="">
+                      					<input  type="file" name="file" id="file" required>
                                 <div style="text-align :center;">
                                   			<input type="submit" value="">
                       					<div class="social-icons" style="margin-top:20%;">
@@ -467,22 +413,16 @@
                       								<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                       							</ul>
                       						</div>
-
-
                                 </div>
                       				</form>
                       			</div>
                       		</div>
                       		<!--//main-->
                       	</div>
-                        </div>
+                      </div>
 
-
-<!-- Day 3-->
   <div role="tabpanel" class="col-lg-12  tab-pane fade" id="day-3">
                 <div class="main-container">
-
-                  <!--main-->
                   <div class="main-content-agile">
                     <div class="w3ls-pro">
                       <h2 align="center">Update Essay Topic</h2>
@@ -537,7 +477,7 @@
                 <div class="table-responsive" >
                   <br><br>
                   <table class="table table-striped" id="table2">
-                    <thead>
+                    <tbody>
                       <tr >
                         <th >Roll Number</th>
                         <th >Essay Topic</th>
@@ -546,8 +486,6 @@
                         <th>Grade </th>
                         <th>Action</th>
                       </tr>
-                    </thead>
-                    <tbody>
                       <tr>
                         <td width=1% >a</td>
                         <td width = 5% >a</td>
@@ -630,34 +568,5 @@
   </body>
 
   </html>
-  <script>
-    // Change the selector if needed
-    var $table = $('table'),
-    $bodyCells = $table.find('tbody tr:first').children(),
-    colWidth;
 
-// Get the tbody columns width array
-  colWidth = $bodyCells.map(function() {
-      return $(this).width();
-  }).get();
-
-// Set the width of thead columns
-  $table.find('thead tr').children().each(function(i, v) {
-      $(v).width(colWidth[i]);
-  });
-
-  var $table = $('#table2'),
-  $bodyCells = $table.find('tbody tr:first').children(),
-  colWidth;
-
-// Get the tbody columns width array
-colWidth = $bodyCells.map(function() {
-    return $(this).width();
-}).get();
-
-// Set the width of thead columns
-$table.find('thead tr').children().each(function(i, v) {
-    $(v).width(colWidth[i]);
-});
-  </script>
 {% endblock %}
