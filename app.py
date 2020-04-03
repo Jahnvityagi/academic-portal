@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, abort, session, jsonify
 import uuid, os, json, dropbox
-
+from whitenoise import WhiteNoise
 app = Flask(__name__)
+app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
 app.secret_key = 'h432hi5ohi3h5i5hi3o2hi'
-API_KEY = ''
+API_KEY = 'BT1HAVEIyxAAAAAAAAAA9VjrCpRI9aRfYYhrD9ywOu_reUCFAs34vWAUX6Xhfqhx'
 dbx_client = dropbox.Dropbox(API_KEY)
 
 class TransferData:
@@ -194,7 +195,6 @@ def upload_teacher_notes():
     if not session.get('TeacherLoggedIn'):
         flash('Please login to continue.')
         return redirect(url_for('login_teacher'))
-
     topic = request.form['topic']
     exam = request.form['exam']
     notes = request.files['file']
@@ -222,7 +222,5 @@ def upload_teacher_notes():
     summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes.filename).link
     assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes.filename).link
     timestamp = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes.filename).metadata.client_modified
-    # notes_details = [notes_link, summary_link, assignment_link, topic, timestamp, notes.filename]
-    # session['JustUploaded'] = notes_details
-    flash('Uploaded successfully.')
+    flash('Content uploaded successfully.')
     return redirect(url_for('teacher_dashboard'))
