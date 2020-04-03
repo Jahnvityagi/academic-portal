@@ -3,7 +3,7 @@ import uuid, os, json, dropbox
 
 app = Flask(__name__)
 app.secret_key = 'h432hi5ohi3h5i5hi3o2hi'
-API_KEY = ''
+API_KEY = 'BT1HAVEIyxAAAAAAAAAA5zeHXtUM6Rs2jDIOo1qdDa5VdCxmMx7U4q7ENhaDbvaf'
 dbx_client = dropbox.Dropbox(API_KEY)
 
 class TransferData:
@@ -71,7 +71,6 @@ def loginStudent():
         if pwd == credentials[email]['password']:
             session['StudentLoggedIn'] = True
             session['StudentEmail'] = email
-            flash('Logged in successfully.')
             return redirect(url_for('student_dashboard'))
         else:
             flash('Incorrect password. Please try again.')
@@ -111,8 +110,7 @@ def register_teacher():
         'name' : full_name,
         'password' : pwd,
         'specialization' : spc,
-        'designation' : dsg,
-        'notes' : []
+        'designation' : dsg
         }
         with open('teacher_credentials.json', 'w') as tc:
             json.dump(credentials, tc, indent=4)
@@ -133,7 +131,6 @@ def loginTeacher():
         if pwd == credentials[email]['password']:
             session['TeacherLoggedIn'] = True
             session['TeacherEmail'] = email
-            flash('Logged in successfully.')
             return redirect(url_for('teacher_dashboard'))
         else:
             flash('Incorrect password. Please try again.')
@@ -161,19 +158,21 @@ def teacher_dashboard():
     if not session.get('TeacherLoggedIn'):
         flash('Please login to continue.')
         return redirect(url_for('login_teacher'))
-    credentials = {}
-    with open('teacher_credentials.json') as tc:
-        credentials = json.load(tc)
+    uploads = {}
+    if os.path.getsize('teacher_uploads.json'):
+        with open('teacher_uploads.json') as tu:
+            uploads = json.load(tu)
     notes_details = []
-    for notes in credentials[session['TeacherEmail']]["notes"]:
-        name = notes[2]
-        filename = notes[0]
-        notes_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).link
-        summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes[0]).link
-        assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes[0]).link
-        timestamp = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).metadata.client_modified
-        notes_details.append([notes_link, summary_link, assignment_link, name, timestamp, filename])
-    return render_template('teacher_dashboard.html', notes = notes_details)
+    if session["TeacherEmail"] in uploads and "notes" in uploads[session['TeacherEmail']]:
+        for notes in uploads[session['TeacherEmail']]["notes"]:
+            name = notes[2]
+            filename = notes[0]
+            notes_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).link
+            summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes[0]).link
+            assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes[0]).link
+            timestamp = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).metadata.client_modified
+            notes_details.append([notes_link, summary_link, assignment_link, name, timestamp, filename])
+    return render_template('teacher_dashboard.html', notes=notes_details)
 
 @app.route('/teacher_notes')
 def teacher_notes():
@@ -189,28 +188,41 @@ def generateSummary(notes):
 def generateAssignment(notes):
     return notes
 
+
 @app.route('/upload_teacher_notes', methods = ['POST'])
 def upload_teacher_notes():
     if not session.get('TeacherLoggedIn'):
         flash('Please login to continue.')
         return redirect(url_for('login_teacher'))
+
     topic = request.form['topic']
     exam = request.form['exam']
     notes = request.files['file']
     file_to = '/academic_portal_data/teacher_uploads/' +  notes.filename
     transferData.upload_file(notes, file_to)
     email = session['TeacherEmail']
-    credentials = {}
-    with open('teacher_credentials.json') as tc:
-        credentials = json.load(tc)
-    credentials[email]["notes"].append([notes.filename, exam, topic])
-    with open('teacher_credentials.json', 'w') as tc:
-        json.dump(credentials, tc, indent=4)
+    uploads = {}
+    if os.path.getsize('teacher_uploads.json'):
+        with open('teacher_uploads.json') as tu:
+            uploads = json.load(tu)
+    if email not in uploads:
+        uploads[email] = {}
+    if "notes" not in uploads[email]:
+            uploads[email]["notes"] = []
+    uploads[email]["notes"].append([notes.filename, exam, topic])
+    with open('teacher_uploads.json', 'w') as tu:
+        json.dump(uploads, tu, indent=4)
     summary = generateSummary(notes)
     assignment = generateAssignment(notes)
     summary_to = '/academic_portal_data/teacher_uploads/generated_summaries/' +  summary.filename
     assignment_to = '/academic_portal_data/teacher_uploads/generated_assignments/' +  assignment.filename
     transferData.upload_file(summary, summary_to)
     transferData.upload_file(assignment, assignment_to)
+    notes_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes.filename).link
+    summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes.filename).link
+    assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes.filename).link
+    timestamp = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes.filename).metadata.client_modified
+    # notes_details = [notes_link, summary_link, assignment_link, topic, timestamp, notes.filename]
+    # session['JustUploaded'] = notes_details
     flash('Uploaded successfully.')
     return redirect(url_for('teacher_dashboard'))
