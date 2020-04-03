@@ -1,14 +1,14 @@
 {% extends 'footer.html' %}
 {% block main %}
 {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <script>
-      var messages = {{ messages | safe }};
-      for (var i=0; i<messages.length; i++) {
-        alert(messages[i]);
-      }
-    </script>
-  {% endif %}
+{% if messages %}
+<script>
+  var messages = {{ messages | safe }};
+  for (var i=0; i<messages.length; i++) {
+    alert(messages[i]);
+  }
+</script>
+{% endif %}
 {% endwith %}
 <!DOCTYPE html>
 <html lang="en">
@@ -20,8 +20,8 @@
   <meta content="" name="keywords">
   <meta content="" name="description">
 
-  <!-- Favicons -->
-  <link href="{{url_for('static', filename='favicon.png')}}" rel="icon">
+  <!-- LOGO1s -->
+  <link href="{{url_for('static', filename='LOGO1.png')}}" rel="icon">
   <link href="{{url_for('static', filename='apple-touch-icon.png')}}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
@@ -40,68 +40,68 @@
   <link href="{{url_for('static',filename='lib/css/style.css')}}" rel="stylesheet">
   <link href="{{url_for('static', filename='lib/css/album.css')}}" rel="stylesheet">
   <style>
-  table, th, td{
-    border-spacing: 0px;
-    border-collapse: separate;
-    border: 1px solid black;
-  }
-
-  #schedule {
-    padding: 60px 0 60px 0;
-  }
-
-  #schedule .nav-tabs {
-    text-align: center;
-    margin: auto;
-    display: block;
-    border-bottom: 0;
-    margin-bottom: 30px;
-  }
-
-  #schedule .nav-tabs li {
-    display: inline-block;
-    margin-bottom: 0;
-  }
-
-  #schedule .nav-tabs a {
-    border: none;
-    border-radius: 50px;
-    font-weight: 600;
-    background-color: #A9A9A9;
-    color: #fff;
-    padding: 10px 60px;
-  }
-
-  @media (max-width: 991px) {
-    #schedule .nav-tabs a {
-      padding: 8px 60px;
+    table, th, td{
+      border-spacing: 0px;
+      border-collapse: separate;
+      border: 1px solid black;
     }
-  }
 
-  @media (max-width: 767px) {
-    #schedule .nav-tabs a {
-      padding: 8px 50px;
+    #schedule {
+      padding: 60px 0 60px 0;
     }
-  }
 
-  @media (max-width: 480px) {
-    #schedule .nav-tabs a {
-      padding: 8px 30px;
+    #schedule .nav-tabs {
+      text-align: center;
+      margin: auto;
+      display: block;
+      border-bottom: 0;
+      margin-bottom: 30px;
     }
-  }
 
-  #schedule .nav-tabs a.active {
-    background-color: #2eca6a;
-    color: #fff;
-  }
+    #schedule .nav-tabs li {
+      display: inline-block;
+      margin-bottom: 0;
+    }
+
+    #schedule .nav-tabs a {
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      background-color: #A9A9A9;
+      color: #fff;
+      padding: 10px 60px;
+    }
+
+    @media (max-width: 991px) {
+      #schedule .nav-tabs a {
+        padding: 8px 60px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      #schedule .nav-tabs a {
+        padding: 8px 50px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #schedule .nav-tabs a {
+        padding: 8px 30px;
+      }
+    }
+
+    #schedule .nav-tabs a.active {
+      background-color: #2eca6a;
+      color: #fff;
+    }
 
   </style>
 </head>
 
 <body>
 
-   <!-- Nav Start -->
-   <div >
+  <!-- Nav Start -->
+  <div >
     <nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
       <div class="container">
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -137,157 +137,117 @@
   <!-- Nav End -->
   <main role="main">
 
-  <section class="jumbotron text-center " style="margin-top:8%">
-  <div class="container" style="max-width:60rem">
-    <h1>Professor {{name}}</h1>
-    <p class="lead text-muted">Designation:  {{dsg}} <br>
-      Specialization:  {{spc}}
-    </p>
+    <section class="jumbotron text-center " style="margin-top:8%">
+      <div class="container" style="max-width:60rem">
+        <h1>Professor {{name}}</h1>
+        <p class="lead text-muted">Designation:  {{dsg}} <br>
+          Specialization:  {{spc}}
+        </p>
 
-<!-- ======= Buttons Section ======= -->
-<section id="schedule" class="section-with-bg">
-  <div class="container wow fadeInUp">
-    <div class="section-header">
-      <h3>Study Guide</h3>
-      <div style="	width: 580px;
-       height: 4px;
-       margin-bottom: 30px;
-       background-color: #2eca6a;"></div>
+        <!-- ======= Buttons Section ======= -->
+        <section id="schedule" class="section-with-bg">
+          <div class="container wow fadeInUp">
+            <div class="section-header">
+              <h3>Study Guide</h3>
+              <div style="	width: 580px;
+              height: 4px;
+              margin-bottom: 30px;
+              background-color: #2eca6a;"></div>
 
-    </div>
+            </div>
 
-    <ul class="nav nav-tabs" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" href="#day-1" role="tab" data-toggle="tab" > Notes</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#day-2" role="tab" data-toggle="tab" > Essays </a>
-      </li>
-    </ul>
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" href="#day-1" role="tab" data-toggle="tab" > Notes</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#day-2" role="tab" data-toggle="tab" > Essays </a>
+              </li>
+            </ul>
 
-    <div class="tab-content row ">
+            <div class="tab-content row ">
 
-      <!-- Schdule Day 1 -->
-      <div role="tabpanel" class="col-lg-9 tab-pane fade show active" id="day-1">
-      <div class="row schedule-item">
+              <!-- Schdule Day 1 -->
+              <div role="tabpanel" class="col-lg-9 tab-pane fade show active" id="day-1">
+                <div class="row schedule-item">
 
-            <br><br>
-            {% if notes|length > 0 %}
-            <table class="table table-striped" >
-                <tr>
-                  <th width=10%>Topic</th>
-                  <th width=10%>Uploaded On</th>
-                  <th width=8%>Notes</th>
-                  <th width=8%>Summary</th>
-                  <th width=8%>Question Bank</th>
-                </tr>
-                {% for n in notes | reverse %}
-                  <tr>
-                    <td width=10%>{{n[3]}}</td>
-                    <td width=8%>{{n[4]}}</td>
-                    <td class="td2" width = 8%><a href="{{n[0]}}"> {{n[5]}}</a></td>
-                    <td class="td2" width = 8"%><a href="{{n[1]}}"> Summary for {{n[5]}} </a></td>
-                    <td class="td2" width = 8"%><a href="{{n[2]}}"> Assignment for {{n[5]}} </a></td>
-                  </tr>
-                {% endfor %}
-          </table>
-          {% else %}
-              <h1 style="margin-left:40%"> No uploads. </h1>
-          {% endif %}
+                  <br><br>
+                  {% if notes|length > 0 %}
+                  <table class="table table-striped" >
+                    <tr>
+                      <th width=10%>Topic</th>
+                      <th width=10%>Uploaded On</th>
+                      <th width=8%>Notes</th>
+                      <th width=8%>Summary</th>
+                      <th width=8%>Question Bank</th>
+                    </tr>
+                    {% for n in notes | reverse %}
+                    <tr>
+                      <td width=10%>{{n[3]}}</td>
+                      <td width=8%>{{n[4]}}</td>
+                      <td class="td2" width = 8%><a href="{{n[0]}}"> {{n[5]}}</a></td>
+                      <td class="td2" width = 8"%><a href="{{n[1]}}"> Summary for {{n[5]}} </a></td>
+                      <td class="td2" width = 8"%><a href="{{n[2]}}"> Assignment for {{n[5]}} </a></td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                  {% else %}
+                  <h1 style="margin-left:40%"> No uploads. </h1>
+                  {% endif %}
+                </div>
               </div>
+
+              <div role="tabpanel" class="col-lg-9  tab-pane fade" id="day-2">
+                <div class="row schedule-item">
+                  <br>
+                  {% if topics|length > 0 %}
+                  <table class="table table-striped" >
+                    <tr>
+                      <th width=20%>Essay Topic</th>
+                      <th width=12%>Submission-due-date</th>
+                      <th width=9%> Upload Essay Answer</th>
+                    </tr>
+                    {% for t in topics | reverse %}
+                    <tr>
+                      <td width=20%>{{t[0]}}</td>
+                      <td width=12%>{{t[1]}}</td>
+                      <td width=9%><form action="your-url" method="post" enctype="multipart/form-data">
+                        <label for="file">File</label>
+                        <input type="file" name="file" value="" required></form></td>
+                      </tr>
+                      {% endfor %}
+                    </table>
+                    {% else %}
+                    <h1 style="margin-left:40%"> No Assignments yet. </h1>
+                    {% endif %}
+                  </div>
+                </div>
               </div>
 
-      <!-- End Schdule Day 1 -->
-
-      <!-- Schdule Day 2 -->
-      <div role="tabpanel" class="col-lg-9  tab-pane fade" id="day-2">
-      <div class="row schedule-item">
-                    <br>
-                    <table align="center" class="table table-striped">
-                        <tr>
-
-                          <th width=20%>Essay Topic</th>
-                          <th width=12%>Submission-due-date</th>
-                          <th width=9%> Upload Essay Answer</th>
-                        </tr>
-                        <tr>
-                          <td width=20%>"upload assignment"</td>
-                          <td width=12%> 15-April-2020</td>
-                          <td width=9%><form action="your-url" method="post" enctype="multipart/form-data">
-                            <label for="file">File</label>
-                            <input type="file" name="file" value="" required></form></td>
-                        </tr>
-                        <tr>
-
-                          <td width=20%>B</td>
-                          <td width=12%>B</td>
-                          <td width=9%><form action="your-url" method="post" enctype="multipart/form-data">
-                            <label for="file">File</label>
-                            <input type="file" name="file" value="" required></form></td>
-                        </tr>
-                        <tr>
-
-                          <td width=20%>C</td>
-                          <td width=12%>C</td>
-                          <td width=9%><form action="your-url" method="post" enctype="multipart/form-data">
-                            <label for="file">File</label>
-                            <input type="file" name="file" value="" required></form></td>
-                        </tr>
-                        <tr>
-
-                          <td width=20%>D</td>
-                          <td width=12%>D</td>
-                          <td width=9%><form action="your-url" method="post" enctype="multipart/form-data">
-                            <label for="file">File</label>
-                            <input type="file" name="file" value="" required></form></td>
-                        </tr>
-                        <tr>
-
-                          <td width=20%>E</td>
-                          <td width=12%>E</td>
-                          <td width=9%><form action="your-url" method="post" enctype="multipart/form-data">
-                            <label for="file">File</label>
-                            <input type="file" name="file" value="" required></form></td>
-                        </tr>
-                        <tr>
-
-                          <td width=20%>F</td>
-                          <td width=12%>F</td>
-                          <td width=9%><form action="your-url" method="post" enctype="multipart/form-data">
-                            <label for="file">File</label>
-                            <input type="file" name="file" value="" required></form></td>
-                        </tr>
-
-                      </table>
-
-    </div>
-    </div>
-  </div>
-
-</section><!-- End Schedule Section -->
+            </section><!-- End Schedule Section -->
 
 
 
-</main>
+          </main>
 
 
-<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
-<div id="preloader"></div>
+          <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+          <div id="preloader"></div>
 
-<!-- JavaScript Libraries -->
-<script src="{{url_for('static',filename='lib/jquery/jquery.min.js')}}"></script>
-<script src="{{url_for('static',filename='lib/jquery/jquery-migrate.min.js')}}"></script>
-<script src="{{url_for('static',filename='lib/popper/popper.min.js')}}"></script>
-<script src="{{url_for('static',filename='lib/bootstrap/js/bootstrap.min.js')}}"></script>
-<script src="{{url_for('static',filename='lib/easing/easing.min.js')}}"></script>
-<script src="{{url_for('static',filename='lib/owlcarousel/owl.carousel.min.js')}}"></script>
-<script src="{{url_for('static',filename='lib/scrollreveal/scrollreveal.min.js')}}"></script>
+          <!-- JavaScript Libraries -->
+          <script src="{{url_for('static',filename='lib/jquery/jquery.min.js')}}"></script>
+          <script src="{{url_for('static',filename='lib/jquery/jquery-migrate.min.js')}}"></script>
+          <script src="{{url_for('static',filename='lib/popper/popper.min.js')}}"></script>
+          <script src="{{url_for('static',filename='lib/bootstrap/js/bootstrap.min.js')}}"></script>
+          <script src="{{url_for('static',filename='lib/easing/easing.min.js')}}"></script>
+          <script src="{{url_for('static',filename='lib/owlcarousel/owl.carousel.min.js')}}"></script>
+          <script src="{{url_for('static',filename='lib/scrollreveal/scrollreveal.min.js')}}"></script>
 
-<!-- Template Main Javascript File -->
-<script src="{{url_for('static',filename='lib/js/main.js')}}"></script>
+          <!-- Template Main Javascript File -->
+          <script src="{{url_for('static',filename='lib/js/main.js')}}"></script>
 
 
-</body>
+        </body>
 
-</html>
-{% endblock %}
+        </html>
+        {% endblock %}

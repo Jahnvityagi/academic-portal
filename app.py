@@ -42,6 +42,8 @@ def register_student():
     full_name = request.form['first_name'] + " " + request.form['last_name']
     pwd = request.form['password']
     email = request.form['email']
+    roll_no = request.form['rollno']
+    print ("size=", os.path.getsize('student_credentials.json'))
     if os.path.getsize('student_credentials.json'):
         with open('student_credentials.json') as sc:
             credentials = json.load(sc)
@@ -51,7 +53,8 @@ def register_student():
     else:
         credentials[email] = {
         'name' : full_name,
-        'password' : pwd
+        'password' : pwd,
+        'roll_no' : roll_no
         }
         with open('student_credentials.json', 'w') as sc:
             json.dump(credentials, sc, indent=4)
@@ -195,7 +198,11 @@ def teacher_notes():
             assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes[0]).link
             timestamp = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).metadata.client_modified
             notes_details.append([notes_link, summary_link, assignment_link, name, timestamp, filename])
-    return render_template('teacher_notes.html', name=details['name'], spc = details['specialization'], dsg = details['designation'], notes=notes_details)
+    essay_topics = []
+    if teacher_email in uploads and "essay_topics" in uploads[teacher_email]:
+        for topics in uploads[teacher_email]["essay_topics"]:
+            essay_topics.append(topics)
+    return render_template('teacher_notes.html', name=details['name'], spc = details['specialization'], dsg = details['designation'], notes=notes_details, topics = essay_topics)
 
 def generateSummary(notes):
     return notes
@@ -203,6 +210,25 @@ def generateSummary(notes):
 def generateAssignment(notes):
     return notes
 
+@app.route('/upload_essay_topic', methods = ['POST'])
+def upload_essay_topic():
+    topic = request.form['topic']
+    date = request.form['datepicker']
+    limit = request.form['limit']
+    email = session['TeacherEmail']
+    uploads = {}
+    if os.path.getsize('teacher_uploads.json'):
+        with open('teacher_uploads.json') as tu:
+            uploads = json.load(tu)
+    if email not in uploads:
+        uploads[email] = {}
+    if "essay_topics" not in uploads[email]:
+        uploads[email]["essay_topics"] = []
+    uploads[email]["essay_topics"].append([topic,date,limit])
+    with open('teacher_uploads.json', 'w') as tu:
+        json.dump(uploads, tu, indent=4)
+    flash('Topic uploaded successfully.')
+    return redirect(url_for('teacher_dashboard'))
 
 @app.route('/upload_teacher_notes', methods = ['POST'])
 def upload_teacher_notes():

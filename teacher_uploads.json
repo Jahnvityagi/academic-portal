@@ -21,6 +21,18 @@
                 "Minor2",
                 "Sample "
             ]
+        ],
+        "essay_topics": [
+            [
+                "Artificial Intelligence",
+                "04/30/2020",
+                "500"
+            ],
+            [
+                "Cloud Computing",
+                "04/18/2020",
+                "400"
+            ]
         ]
     }
 }
