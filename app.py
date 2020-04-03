@@ -181,7 +181,21 @@ def teacher_notes():
     with open('teacher_credentials.json') as tc:
         credentials = json.load(tc)
     details = credentials[teacher_email]
-    return render_template('teacher_notes.html', name=details['name'], spc = details['specialization'], dsg = details['designation'])
+    uploads = {}
+    if os.path.getsize('teacher_uploads.json'):
+        with open('teacher_uploads.json') as tu:
+            uploads = json.load(tu)
+    notes_details = []
+    if teacher_email in uploads and "notes" in uploads[teacher_email]:
+        for notes in uploads[teacher_email]["notes"]:
+            name = notes[2]
+            filename = notes[0]
+            notes_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).link
+            summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes[0]).link
+            assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes[0]).link
+            timestamp = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).metadata.client_modified
+            notes_details.append([notes_link, summary_link, assignment_link, name, timestamp, filename])
+    return render_template('teacher_notes.html', name=details['name'], spc = details['specialization'], dsg = details['designation'], notes=notes_details)
 
 def generateSummary(notes):
     return notes
