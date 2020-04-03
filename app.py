@@ -4,7 +4,7 @@ from whitenoise import WhiteNoise
 app = Flask(__name__)
 app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
 app.secret_key = 'h432hi5ohi3h5i5hi3o2hi'
-API_KEY = 'BT1HAVEIyxAAAAAAAAAA9VjrCpRI9aRfYYhrD9ywOu_reUCFAs34vWAUX6Xhfqhx'
+API_KEY = ''
 dbx_client = dropbox.Dropbox(API_KEY)
 
 class TransferData:
