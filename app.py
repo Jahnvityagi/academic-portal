@@ -3,7 +3,7 @@ import uuid, os, json, dropbox
 
 app = Flask(__name__)
 app.secret_key = 'h432hi5ohi3h5i5hi3o2hi'
-API_KEY = 'BT1HAVEIyxAAAAAAAAAA5zeHXtUM6Rs2jDIOo1qdDa5VdCxmMx7U4q7ENhaDbvaf'
+API_KEY = ''
 dbx_client = dropbox.Dropbox(API_KEY)
 
 class TransferData:
