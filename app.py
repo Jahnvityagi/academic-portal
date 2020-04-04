@@ -2,6 +2,12 @@ from flask import Flask, render_template, request, redirect, url_for, flash, abo
 import uuid, os, json, dropbox
 from whitenoise import WhiteNoise
 from datetime import datetime
+import time
+
+def datetime_from_utc_to_local(utc_datetime):
+    now_timestamp = time.time()
+    offset = datetime.fromtimestamp(now_timestamp) - datetime.utcfromtimestamp(now_timestamp)
+    return utc_datetime + offset
 
 app = Flask(__name__)
 app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
@@ -178,7 +184,7 @@ def teacher_dashboard():
             notes_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).link
             summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes[0]).link
             assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes[0]).link
-            timestamp = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).metadata.client_modified
+            timestamp = datetime_from_utc_to_local(dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).metadata.client_modified)
             notes_details.append([notes_link, summary_link, assignment_link, name, timestamp, filename])
     submissions = []
     student_uploads = {}
@@ -191,7 +197,7 @@ def teacher_dashboard():
             name = topic[0]
             if uuid in student_uploads:
                 for upload in student_uploads[uuid]:
-                    date = dbx_client.files_get_temporary_link('/academic_portal_data/student_uploads/' + upload[0]).metadata.client_modified
+                    date = datetime_from_utc_to_local(dbx_client.files_get_temporary_link('/academic_portal_data/student_uploads/' + upload[0]).metadata.client_modified)
                     file = dbx_client.files_get_temporary_link('/academic_portal_data/student_uploads/' + upload[0]).link
                     submissions.append([upload[4], name,date,upload[3], upload[1],upload[2],file, upload[0], uuid])
     return render_template('teacher_dashboard.html', notes=notes_details, submissions = submissions)
@@ -214,22 +220,30 @@ def teacher_notes():
             notes_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).link
             summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes[0]).link
             assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes[0]).link
-            timestamp = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).metadata.client_modified
+            timestamp = datetime_from_utc_to_local(dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).metadata.client_modified)
             notes_details.append([notes_link, summary_link, assignment_link, name, timestamp, filename])
     essay_topics = []
     if teacher_email in uploads and "essay_topics" in uploads[teacher_email]:
         for topics in uploads[teacher_email]["essay_topics"]:
+            print(topics)
+            print(datetime.strptime(topics[1], "%m/%d/%Y").date())
+            print(datetime.today().date())
+            print (datetime.strptime(topics[1], "%m/%d/%Y").date() >= datetime.today().date())
             if datetime.strptime(topics[1], "%m/%d/%Y").date() >= datetime.today().date():
                 student_uploads={}
                 if os.path.getsize('student_uploads.json'):
                     with open('student_uploads.json') as su:
                         student_uploads = json.load(su)
+                submitted = False
                 if topics[3] in student_uploads:
                     for upload in student_uploads[topics[3]]:
                         if upload[4] == session['StudentRollNo']:
                             essay_topics.append([topics[0], topics[1], topics[2], topics[3], 'yes'])
-                else:
+                            submitted=True
+                            break
+                if not submitted:
                     essay_topics.append([topics[0], topics[1], topics[2], topics[3], 'no'])
+            print(essay_topics)
     return render_template('teacher_notes.html', email= teacher_email,name=details['name'], spc = details['specialization'], dsg = details['designation'], notes=notes_details, topics = essay_topics)
 
 def generateSummary(notes):
@@ -291,7 +305,7 @@ def upload_teacher_notes():
     notes_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes.filename).link
     summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes.filename).link
     assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes.filename).link
-    timestamp = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes.filename).metadata.client_modified
+    timestamp = datetime_from_utc_to_local(dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes.filename).metadata.client_modified)
     flash('Content uploaded successfully.')
     return redirect(url_for('teacher_dashboard'))
 
