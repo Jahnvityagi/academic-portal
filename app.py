@@ -12,7 +12,7 @@ def datetime_from_utc_to_local(utc_datetime):
 app = Flask(__name__)
 app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
 app.secret_key = 'h432hi5ohi3h5i5hi3o2hi'
-API_KEY = 'BT1HAVEIyxAAAAAAAAAA9rozUR-SN2YEHum6v0iPbS_0qdsDvBdweX7WJ_oFFVQo'
+API_KEY = 'BT1HAVEIyxAAAAAAAAAA971bBWfpj5RspWKBArfP7rd5S4kdcS_3ukeD0t0f9DI1'
 dbx_client = dropbox.Dropbox(API_KEY)
 
 class TransferData:
