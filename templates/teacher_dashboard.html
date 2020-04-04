@@ -513,70 +513,50 @@
             <div class="row schedule-item">
               <br>
               <div class="container">
+                <br><br>
+                {% if submissions|length >0 %}
                 <div class="table-responsive" >
-                  <br><br>
                   <table class="table table-striped" id="table2">
                     <tbody>
                       <tr >
                         <th >Roll Number</th>
                         <th >Essay Topic</th>
+                        <th> Upload </th>
                         <th >Submitted on</th>
                         <th>Plagiarism%</th>
                         <th>Grade </th>
                         <th>Action</th>
                       </tr>
+                      {% for submission in submissions %}
                       <tr>
-                        <td width=1% >a</td>
-                        <td width = 5% >a</td>
-                        <td width = 5%>a</td>
-                        <td width = 5% >a</td>
-                        <td width = 5% >a</td>
-                        <td width = 8% class="text-center" ><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Accept grade</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Edit Grade</a></td>
-
+                        <td width = 1%>{{submission[0]}}</td>
+                        <td width = 5%>{{submission[1]}}</td>
+                        <td width = 8%><a href="{{submission[6]}}">{{submission[7]}} </a> </td>
+                        <td width = 5%>{{submission[2]}}</td>
+                        <td width = 5%>{{submission[3]}}</td>
+                        <td width = 1%>{{submission[4]}}</td>
+                        {% if submission[5] == 'false' %}
+                          <td width = 10% class="text-center" >
+                            <form action="accept_grade" method="post">
+                              <input type="submit" value="Accept grade" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit"></span>
+                              <input type="hidden" value="{{submission[8]}}" id="uuid" name="uuid">
+                              <input type="hidden" value="{{submission[0]}}" id="roll_no" name="roll_no">
+                            </form>
+                            <form action="" method="post">
+                              <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Edit Grade</a>
+                            </form>
+                          </td>
+                        {% else %}
+                          <td width = 8% class="text-center" >Accepted <img src="{{url_for('static', filename='check.png')}}" height=5%></td>
+                        {% endif %}
                       </tr>
-                      <tr>
-                        <td width=1% >a</td>
-                        <td width = 5% >a</td>
-                        <td width = 5% >a</td>
-                        <td width = 5% >a</td>
-                        <td width = 5% >a</td>
-                        <td width = 8% class="text-center" >Accepted <img src="{{url_for('static', filename='check.png')}}" height=5%></td>
-
-                      </tr>
-                      <tr>
-                        <td width=1% >a</td>
-                        <td width = 5% >a</td>
-                        <td width = 5%>a</td>
-                        <td width = 5% >a</td>
-                        <td width = 5% >a</td>
-                        <td width = 8% class="text-center" ><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Accept grade</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Edit Grade</a></td>
-
-                      </tr>
-
-                      <tr>
-                        <td width=1% >a</td>
-                        <td width = 5% >a</td>
-                        <td width = 5%>a</td>
-                        <td width = 5% >a</td>
-                        <td width = 5% >a</td>
-                        <td width = 8% class="text-center" ><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Accept grade</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Edit Grade</a></td>
-
-                      </tr>
-                      <tr>
-                        <td width=1% >a</td>
-                        <td width = 5% >a</td>
-                        <td width = 5%>a</td>
-                        <td width = 5% >a</td>
-                        <td width = 5% >a</td>
-                        <td width = 8% class="text-center" ><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Accept grade</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Edit Grade</a></td>
-
-                      </tr>
-
-
+                      {% endfor %}
                     </tbody>
                   </table>
-
                 </div>
+                {% else %}
+
+                {% endif %}
               </div>
             </div>
 

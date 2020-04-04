@@ -211,23 +211,29 @@
                     <tr>
                       <td width=20%>{{t[0]}}</td>
                       <td width=12%>{{t[1]}}</td>
-                      <td width=9%><form action="your-url" method="post" enctype="multipart/form-data">
-                        <label for="file">File</label>
-                        <input type="file" name="file" value="" required></form></td>
+                      <td width=9%>
+                        {% if t[4] == 'no'%}
+                          <form action="upload_answer" method="post" enctype="multipart/form-data">
+                            <input type="file" name="file" id="file"  required><br>
+                            <input type="hidden" id="uuid" name="uuid" value="{{t[3]}}">
+                            <input type="hidden" id="email" name="email" value="{{email}}">
+                            <input type="submit" >
+                          </form>
+                        {% else %}
+                        Uploaded<img src="{{url_for('static', filename='check.png')}}" height=5%>
+                        {% endif %}
+                    </td>
+
                       </tr>
                       {% endfor %}
                     </table>
                     {% else %}
-                    <h1 style="margin-left:40%"> No Assignments yet. </h1>
+                    <h1 style="margin-left:15%"> No Assignments yet. </h1>
                     {% endif %}
                   </div>
                 </div>
               </div>
-
             </section><!-- End Schedule Section -->
-
-
-
           </main>
 
 

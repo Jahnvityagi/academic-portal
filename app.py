@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, abort, session, jsonify
 import uuid, os, json, dropbox
 from whitenoise import WhiteNoise
+from datetime import datetime
+
 app = Flask(__name__)
 app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
 app.secret_key = 'h432hi5ohi3h5i5hi3o2hi'
@@ -60,6 +62,7 @@ def register_student():
             json.dump(credentials, sc, indent=4)
         session['StudentLoggedIn'] = True
         session['StudentEmail'] = email
+        session['StudentRollNo'] = roll_no
         flash('You have been registered and logged in successfully.')
     return redirect(url_for('student_dashboard'))
 
@@ -75,6 +78,7 @@ def loginStudent():
         if pwd == credentials[email]['password']:
             session['StudentLoggedIn'] = True
             session['StudentEmail'] = email
+            session['StudentRollNo'] = credentials[email]["roll_no"]
             return redirect(url_for('student_dashboard'))
         else:
             flash('Incorrect password. Please try again.')
@@ -176,7 +180,21 @@ def teacher_dashboard():
             assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes[0]).link
             timestamp = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).metadata.client_modified
             notes_details.append([notes_link, summary_link, assignment_link, name, timestamp, filename])
-    return render_template('teacher_dashboard.html', notes=notes_details)
+    submissions = []
+    student_uploads = {}
+    if os.path.getsize('student_uploads.json'):
+        with open('student_uploads.json') as su:
+            student_uploads = json.load(su)
+    if session["TeacherEmail"] in uploads and "essay_topics" in uploads[session['TeacherEmail']]:
+        for topic in uploads[session['TeacherEmail']]["essay_topics"]:
+            uuid = topic[3]
+            name = topic[0]
+            if uuid in student_uploads:
+                for upload in student_uploads[uuid]:
+                    date = dbx_client.files_get_temporary_link('/academic_portal_data/student_uploads/' + upload[0]).metadata.client_modified
+                    file = dbx_client.files_get_temporary_link('/academic_portal_data/student_uploads/' + upload[0]).link
+                    submissions.append([upload[4], name,date,upload[3], upload[1],upload[2],file, upload[0], uuid])
+    return render_template('teacher_dashboard.html', notes=notes_details, submissions = submissions)
 
 @app.route('/teacher_notes')
 def teacher_notes():
@@ -201,8 +219,18 @@ def teacher_notes():
     essay_topics = []
     if teacher_email in uploads and "essay_topics" in uploads[teacher_email]:
         for topics in uploads[teacher_email]["essay_topics"]:
-            essay_topics.append(topics)
-    return render_template('teacher_notes.html', name=details['name'], spc = details['specialization'], dsg = details['designation'], notes=notes_details, topics = essay_topics)
+            if datetime.strptime(topics[1], "%m/%d/%Y").date() >= datetime.today().date():
+                student_uploads={}
+                if os.path.getsize('student_uploads.json'):
+                    with open('student_uploads.json') as su:
+                        student_uploads = json.load(su)
+                if topics[3] in student_uploads:
+                    for upload in student_uploads[topics[3]]:
+                        if upload[4] == session['StudentRollNo']:
+                            essay_topics.append([topics[0], topics[1], topics[2], topics[3], 'yes'])
+                else:
+                    essay_topics.append([topics[0], topics[1], topics[2], topics[3], 'no'])
+    return render_template('teacher_notes.html', email= teacher_email,name=details['name'], spc = details['specialization'], dsg = details['designation'], notes=notes_details, topics = essay_topics)
 
 def generateSummary(notes):
     return notes
@@ -224,7 +252,8 @@ def upload_essay_topic():
         uploads[email] = {}
     if "essay_topics" not in uploads[email]:
         uploads[email]["essay_topics"] = []
-    uploads[email]["essay_topics"].append([topic,date,limit])
+    id = str(uuid.uuid4())
+    uploads[email]["essay_topics"].append([topic,date,limit,id])
     with open('teacher_uploads.json', 'w') as tu:
         json.dump(uploads, tu, indent=4)
     flash('Topic uploaded successfully.')
@@ -250,8 +279,9 @@ def upload_teacher_notes():
     if "notes" not in uploads[email]:
             uploads[email]["notes"] = []
     uploads[email]["notes"].append([notes.filename, exam, topic])
-    with open('teacher_uploads.json', 'w') as tu:
-        json.dump(uploads, tu, indent=4)
+    if os.path.getsize('teacher_uploads.json'):
+        with open('teacher_uploads.json', 'w') as tu:
+            json.dump(uploads, tu, indent=4)
     summary = generateSummary(notes)
     assignment = generateAssignment(notes)
     summary_to = '/academic_portal_data/teacher_uploads/generated_summaries/' +  summary.filename
@@ -264,3 +294,45 @@ def upload_teacher_notes():
     timestamp = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes.filename).metadata.client_modified
     flash('Content uploaded successfully.')
     return redirect(url_for('teacher_dashboard'))
+
+@app.route('/accept_grade', methods=['POST'])
+def accept_grade():
+    uuid = request.form['uuid']
+    roll_no = request.form['roll_no']
+    uploads = {}
+    with open('student_uploads.json') as su:
+        uploads = json.load(su)
+    for upload in uploads[uuid]:
+        if roll_no == upload[4]:
+            upload[2] = "true"
+            break
+    with open('student_uploads.json', 'w') as su:
+        json.dump(uploads, su, indent=4)
+    return redirect(url_for('teacher_dashboard'))
+
+def getPlagiarism(file):
+    return 0
+
+def getMarks(file):
+    return 90
+
+@app.route('/upload_answer', methods =['POST'])
+def upload_answer():
+    answer = request.files['file']
+    uuid = request.form['uuid']
+    email = request.form['email']
+    file_to = '/academic_portal_data/student_uploads/' + answer.filename
+    transferData.upload_file(answer, file_to)
+    uploads = {}
+    if os.path.getsize('student_uploads.json'):
+        with open('student_uploads.json', 'r') as su:
+            uploads = json.load(su)
+    marks = getMarks(answer)
+    plagiarism = getPlagiarism(answer)
+    if uuid not in uploads:
+        uploads[uuid] = []
+    uploads[uuid].append([answer.filename, marks, "false", plagiarism, session['StudentRollNo']])
+    with open('student_uploads.json', 'w') as su:
+        json.dump(uploads, su, indent=4)
+    flash('Uploaded successfully.')
+    return redirect(url_for('teacher_notes', teacher_email=email))

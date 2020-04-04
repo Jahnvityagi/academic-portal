@@ -24,14 +24,22 @@
         ],
         "essay_topics": [
             [
-                "Artificial Intelligence",
-                "04/30/2020",
-                "500"
+                "Emergence of Artificial Intelligence ",
+                "04/24/2020",
+                "300",
+                "26948300-1eac-4b4c-93a7-8be02f27dc6c"
             ],
             [
-                "Cloud Computing",
+                "Future of AI",
                 "04/18/2020",
-                "400"
+                "200",
+                "3605c497-6ec0-4339-a963-c3eae4e2bd38"
+            ],
+            [
+                "Agents in AI",
+                "04/01/2020",
+                "100",
+                "0b9e7b58-917b-4fc9-bf89-2a76c37ff470"
             ]
         ]
     }
