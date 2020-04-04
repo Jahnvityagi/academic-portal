@@ -324,6 +324,23 @@ def accept_grade():
         json.dump(uploads, su, indent=4)
     return redirect(url_for('teacher_dashboard'))
 
+@app.route('/edit_grade', methods=['POST'])
+def edit_grade():
+    uuid = request.form['uuid']
+    roll_no = request.form['roll_no']
+    grade = request.form['grade']
+    uploads = {}
+    with open('student_uploads.json') as su:
+        uploads = json.load(su)
+    for upload in uploads[uuid]:
+        if roll_no == upload[4]:
+            upload[2] = "true"
+            upload[1] = grade
+            break
+    with open('student_uploads.json', 'w') as su:
+        json.dump(uploads, su, indent=4)
+    return redirect(url_for('teacher_dashboard'))
+
 def getPlagiarism(file):
     return 0
 

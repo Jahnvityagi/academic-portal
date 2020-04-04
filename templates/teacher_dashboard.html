@@ -536,88 +536,116 @@
                       <tr>
                         <td width = 1%>{{submission[0]}}</td>
                         <td width = 5%>{{submission[1]}}</td>
-                        <td width = 8%><a href="{{submission[6]}}">{{submission[7]}} </a> </td>
+                        <td width = 7%><a href="{{submission[6]}}">{{submission[7]}} </a> </td>
                         <td width = 5%>{{submission[2]}}</td>
                         <td width = 5%>{{submission[3]}}</td>
                         <td width = 1%>{{submission[4]}}</td>
                         {% if submission[5] == 'false' %}
-                          <td width = 10% class="text-center" >
-                            <form action="accept_grade" method="post">
-                              <input type="submit" value="Accept grade" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit"></span>
-                              <input type="hidden" value="{{submission[8]}}" id="uuid" name="uuid">
-                              <input type="hidden" value="{{submission[0]}}" id="roll_no" name="roll_no">
-                            </form>
-                            <button data-toggle="modal" data-target="#editModal" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Edit Grade</a>
+                        <td width = 25% class="text-center" >
+                          <div class="row" style="text-align:center;margin-left:15%">
+                          <form action="accept_grade" method="post">
+                            <input type="submit" value="Accept grade" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit"></span>
+                            <input type="hidden" value="{{submission[8]}}" id="uuid" name="uuid">
+                            <input type="hidden" value="{{submission[0]}}" id="roll_no" name="roll_no">
+                          </form>
+                          <button data-toggle="modal" data-target="#editModal" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Edit Grade
+                          </div>
+                        </td>
+                        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <form action="edit_grade" method="post">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLongTitle">Edit grade</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="form-group">
 
-                          </td>
-                        {% else %}
+                                    <label for="email" style="color: black;">Grade</label>
+                                    <input type="text" class="form-control" id="grade" name="grade" aria-describedby="name" placeholder="Enter updated grade">
+                                    <input type="hidden" value="{{submission[8]}}" id="uuid" name="uuid">
+                                    <input type="hidden" value="{{submission[0]}}" id="roll_no" name="roll_no">
+
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                  <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                          {% else %}
                           <td width = 8% class="text-center" >Accepted <img src="{{url_for('static', filename='check.png')}}" height=5%></td>
-                        {% endif %}
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                </div>
-                {% else %}
+                          {% endif %}
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  {% else %}
 
-                {% endif %}
+                  {% endif %}
+                </div>
               </div>
-            </div>
 
+            </div>
           </div>
-        </div>
-      </section>
-      <!-- End Schedule Section -->
+        </section>
+        <!-- End Schedule Section -->
 
-      <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <form action="" method="post">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Edit grade</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                  <label for="email" style="color: black;">Grade</label>
-                  <input type="text" class="form-control" id="grade" name="grade" aria-describedby="name" placeholder="Enter updated grade">
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <form action="" method="post">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Edit grade</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
                 </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="email" style="color: black;">Grade</label>
+                    <input type="text" class="form-control" id="grade" name="grade" aria-describedby="name" placeholder="Enter updated grade">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-              <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-            </div>
-            </form>
           </div>
         </div>
-      </div>
 
-      <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
-      <div id="preloader"></div>
+        <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+        <div id="preloader"></div>
 
-      <!-- JavaScript Libraries -->
-      <script src="{{url_for('static',filename='lib/jquery/jquery.min.js')}}"></script>
-      <script src="{{url_for('static',filename='lib/jquery/jquery-migrate.min.js')}}"></script>
-      <script src="{{url_for('static',filename='lib/popper/popper.min.js')}}"></script>
-      <script src="{{url_for('static',filename='lib/bootstrap/js/bootstrap.min.js')}}"></script>
-      <script src="{{url_for('static',filename='lib/easing/easing.min.js')}}"></script>
-      <script src="{{url_for('static',filename='lib/owlcarousel/owl.carousel.min.js')}}"></script>
-      <script src="{{url_for('static',filename='lib/scrollreveal/scrollreveal.min.js')}}"></script>
+        <!-- JavaScript Libraries -->
+        <script src="{{url_for('static',filename='lib/jquery/jquery.min.js')}}"></script>
+        <script src="{{url_for('static',filename='lib/jquery/jquery-migrate.min.js')}}"></script>
+        <script src="{{url_for('static',filename='lib/popper/popper.min.js')}}"></script>
+        <script src="{{url_for('static',filename='lib/bootstrap/js/bootstrap.min.js')}}"></script>
+        <script src="{{url_for('static',filename='lib/easing/easing.min.js')}}"></script>
+        <script src="{{url_for('static',filename='lib/owlcarousel/owl.carousel.min.js')}}"></script>
+        <script src="{{url_for('static',filename='lib/scrollreveal/scrollreveal.min.js')}}"></script>
 
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
-      <!-- Template Main Javascript File -->
-      <script src="{{url_for('static',filename='lib/js/main.js')}}"></script>
-      <script>
-        $('#datepicker').datepicker({
-          uiLibrary: 'bootstrap4'
-        });
-      </script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+        <!-- Template Main Javascript File -->
+        <script src="{{url_for('static',filename='lib/js/main.js')}}"></script>
+        <script>
+          $('#datepicker').datepicker({
+            uiLibrary: 'bootstrap4'
+          });
+        </script>
 
-    </body>
+      </body>
 
-    </html>
+      </html>
 
-    {% endblock %}
+      {% endblock %}
