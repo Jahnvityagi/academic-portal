@@ -327,6 +327,8 @@
     }
 
 
+
+
     /*--social-icons--*/
 
   </style>
@@ -420,16 +422,22 @@
                         <th class="th2">Topic</th>
                         <th  class="th2">Uploaded on</th>
                         <th class="th2">Uploaded Content</th>
-                        <th  class="th2">Generated summary</th>
-                        <th  class="th2">Generated assignment</th>
+                        <th  class="th2">Summary</th>
+                        <th  class="th2">Assignment</th>
                       </tr>
                       {% for n in notes | reverse %}
                       <tr>
                         <td class="td2" width = "340px">{{n[3]}}</td>
                         <td class="td2" width = "180px">{{n[4]}}</td>
-                        <td class="td2" width = "200px"%><a href="{{n[0]}}"> {{n[5]}}</a></td>
-                        <td class="td2" width = "200px"%><a href="{{n[1]}}"> Summary for {{n[5]}} </a></td>
-                        <td class="td2" width = "200px"%><a href="{{n[2]}}"> Assignment for {{n[5]}} </a></td>
+                        <td class="td2" width = "400px"%><a href="{{n[0]}}"> {{n[5]}}</a></td>
+                        <td>
+                          <button type="button6" class="btn btn-info btn-lg" style="background-color:#2eca6a; height:50px; width:70px; align:center">Generate Summary</button>
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-info btn-lg" style="background-color:#2eca6a;">Generate Questions</button>
+                        </td>
+                        <!-- <td class="td2" width = "200px"%><a href="{{n[1]}}"> Summary for {{n[5]}} </a></td> -->
+                        <!-- <td class="td2" width = "200px"%><a href="{{n[2]}}"> Assignment for {{n[5]}} </a></td> -->
                       </tr>
                       {% endfor %}
                     </tbody>
@@ -528,7 +536,7 @@
                         <th >Submitted on</th>
                         <th>Plagiarism%</th>
                         <th>Grade </th>
-                        <th>Action</th>
+                        <!--<th>Action</th>-->
                       </tr>
                       {% for submission in submissions %}
                       <tr>
@@ -536,10 +544,59 @@
                         <td width = 5%>{{submission[1]}}</td>
                         <td width = 7%><a href="{{submission[6]}}">{{submission[7]}} </a> </td>
                         <td width = 5%>{{submission[2]}}</td>
-                        <td width = 5%>{{submission[3]}}</td>
+                        <td width = 5%>
+                          <div class="container">
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="background-color:#2eca6a">View Report</button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+          <h4 class="modal-title">Plagiarism Report</h4>
+        </div>
+        <div class="modal-body">
+      <table>
+        <p>The following report displays the percentage of Plagiarism (/similarity) in <b>*name,roll no*</b> submitted asnwers in comparison to other roll numbers in the class</p>
+
+        <table>
+          <tr>
+        <th> Roll Number</th>
+        <th> Plagiarism Percentage</th>
+          </tr>
+          <tr>
+            <td> a</td>
+            <td>a</td>
+          </tr>
+          <tr>
+            <td> a</td>
+            <td>a</td>
+          </tr>
+          <tr>
+            <td> a</td>
+            <td>a</td>
+          </tr>
+          </table>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</td>
                         <td width = 1%>{{submission[4]}}</td>
-                        {% if submission[5] == 'false' %}
-                        <td width = 25% class="text-center" >
+                    <!--  {% if submission[5] == 'false' %}
+
+                     <td width = 25% class="text-center" >
                           <div class="row" style="text-align:center;margin-left:15%">
                           <form action="accept_grade" method="post">
                             <input type="submit" value="Accept grade" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit"></span>
@@ -577,8 +634,8 @@
                             </div>
                           </div>
                           {% else %}
-                          <td width = 8% class="text-center" >Accepted <img src="{{url_for('static', filename='check.png')}}" height=5%></td>
-                          {% endif %}
+                          <td width = 8% class="text-center" >Accepted <img src="{{url_for('static', filename='check.png')}}" height=5%></td>-->
+                          <!--{% endif %} -->
                         </tr>
                         {% endfor %}
                       </tbody>
