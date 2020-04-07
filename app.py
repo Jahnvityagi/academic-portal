@@ -29,10 +29,6 @@ transferData = TransferData(API_KEY)
 def home():
     return render_template('index.html')
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
@@ -225,10 +221,6 @@ def teacher_notes():
     essay_topics = []
     if teacher_email in uploads and "essay_topics" in uploads[teacher_email]:
         for topics in uploads[teacher_email]["essay_topics"]:
-            print(topics)
-            print(datetime.strptime(topics[1], "%m/%d/%Y").date())
-            print(datetime.today().date())
-            print (datetime.strptime(topics[1], "%m/%d/%Y").date() >= datetime.today().date())
             if datetime.strptime(topics[1], "%m/%d/%Y").date() >= datetime.today().date():
                 student_uploads={}
                 if os.path.getsize('student_uploads.json'):
@@ -243,7 +235,6 @@ def teacher_notes():
                             break
                 if not submitted:
                     essay_topics.append([topics[0], topics[1], topics[2], topics[3], 'no'])
-            print(essay_topics)
     return render_template('teacher_notes.html', email= teacher_email,name=details['name'], spc = details['specialization'], dsg = details['designation'], notes=notes_details, topics = essay_topics)
 
 def generateSummary(notes):

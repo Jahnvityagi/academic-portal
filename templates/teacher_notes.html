@@ -202,21 +202,21 @@
                 </div>
               </div>
 
-              <div role="tabpanel" class="col-lg-9  tab-pane fade" id="day-2">
+              <div role="tabpanel" class="col-lg-12  tab-pane fade" id="day-2">
                 <div class="row schedule-item">
                   <br>
                   {% if topics|length > 0 %}
                   <table class="table table-striped" >
                     <tr>
-                      <th width=20%>Essay Topic</th>
-                      <th width=12%>Submission-due-date</th>
-                      <th width=9%> Upload Essay Answer</th>
+                      <th>Essay Topic</th>
+                      <th>Submission-due-date</th>
+                      <th> Upload Essay Answer</th>
                     </tr>
                     {% for t in topics | reverse %}
                     <tr>
-                      <td width=20%>{{t[0]}}</td>
-                      <td width=12%>{{t[1]}}</td>
-                      <td width=9%>
+                      <td width>{{t[0]}}</td>
+                      <td width>{{t[1]}}</td>
+                      <td width>
                         {% if t[4] == 'no'%}
                           <form action="upload_answer" method="post" enctype="multipart/form-data">
                             <input type="file" name="file" id="file"  required><br>
