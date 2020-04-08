@@ -326,11 +326,6 @@
 
     }
 
-
-
-
-    /*--social-icons--*/
-
   </style>
 </head>
 
@@ -427,17 +422,27 @@
                       </tr>
                       {% for n in notes | reverse %}
                       <tr>
-                        <td class="td2" width = "340px">{{n[3]}}</td>
-                        <td class="td2" width = "180px">{{n[4]}}</td>
-                        <td class="td2" width = "400px"%><a href="{{n[0]}}"> {{n[5]}}</a></td>
-                        <td>
-                          <button type="button6" class="btn btn-info btn-lg" style="background-color:#2eca6a; height:50px; width:70px; align:center">Generate Summary</button>
+                        <td class="td2" width = "340px" style=" text-align: center;">{{n[3]}}</td>
+                        <td class="td2" width = "200px" style=" text-align: center;">{{n[4]}}</td>
+                        <td class="td2" width = "300px"style=" text-align: center;"><a href="{{n[0]}}"> {{n[5]}}</a></td>
+                        {% if n[1] == "NA" %}
+                        <td class="td2" width = "200px">
+                          <div style=" text-align: center;">
+                            <button class="btn btn-success btn-sm" >Generate</button>
+                          </div>
                         </td>
-                        <td>
-                          <button type="button" class="btn btn-info btn-lg" style="background-color:#2eca6a;">Generate Questions</button>
+                        {% else %}
+                        <td class="td2" width = "200px" style=" text-align: center;"><a href="{{n[1]}}"> Summary for {{n[5]}} </a></td>
+                        {% endif %}
+                        {% if n[2] == "NA" %}
+                        <td class="td2" width = "200px">
+                          <div style=" text-align: center;">
+                            <button class="btn btn-success btn-sm" >Generate</button>
+                          </div>
                         </td>
-                        <!-- <td class="td2" width = "200px"%><a href="{{n[1]}}"> Summary for {{n[5]}} </a></td> -->
-                        <!-- <td class="td2" width = "200px"%><a href="{{n[2]}}"> Assignment for {{n[5]}} </a></td> -->
+                        {% else %}
+                        <td class="td2" width = "200px" style=" text-align: center;"><a href="{{n[2]}}"> Assignment for {{n[5]}} </a></td>
+                        {% endif %}
                       </tr>
                       {% endfor %}
                     </tbody>
@@ -536,121 +541,75 @@
                         <th >Submitted on</th>
                         <th>Plagiarism%</th>
                         <th>Grade </th>
-                        <!--<th>Action</th>-->
                       </tr>
                       {% for submission in submissions %}
                       <tr>
                         <td width = 1%>{{submission[0]}}</td>
                         <td width = 5%>{{submission[1]}}</td>
-                        <td width = 7%><a href="{{submission[6]}}">{{submission[7]}} </a> </td>
+                        <td width = 7%><a href="{{submission[5]}}">{{submission[6]}} </a> </td>
                         <td width = 5%>{{submission[2]}}</td>
                         <td width = 5%>
+                          {% if submission[4] != 'NA' %}
                           <div class="container">
-  <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="background-color:#2eca6a">View Report</button>
-
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
-          <h4 class="modal-title">Plagiarism Report</h4>
-        </div>
-        <div class="modal-body">
-      <table>
-        <p>The following report displays the percentage of Plagiarism (/similarity) in <b>*name,roll no*</b> submitted asnwers in comparison to other roll numbers in the class</p>
-
-        <table>
-          <tr>
-        <th> Roll Number</th>
-        <th> Plagiarism Percentage</th>
-          </tr>
-          <tr>
-            <td> a</td>
-            <td>a</td>
-          </tr>
-          <tr>
-            <td> a</td>
-            <td>a</td>
-          </tr>
-          <tr>
-            <td> a</td>
-            <td>a</td>
-          </tr>
-          </table>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-</div>
-</td>
-                        <td width = 1%>{{submission[4]}}</td>
-                    <!--  {% if submission[5] == 'false' %}
-
-                     <td width = 25% class="text-center" >
-                          <div class="row" style="text-align:center;margin-left:15%">
-                          <form action="accept_grade" method="post">
-                            <input type="submit" value="Accept grade" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit"></span>
-                            <input type="hidden" value="{{submission[8]}}" id="uuid" name="uuid">
-                            <input type="hidden" value="{{submission[0]}}" id="roll_no" name="roll_no">
-                          </form>
-                          <button data-toggle="modal" data-target="#editModal" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Edit Grade
-                          </div>
-                        </td>
-                        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                          <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                              <form action="edit_grade" method="post">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLongTitle">Edit grade</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                                <div class="modal-body">
-                                  <div class="form-group">
-
-                                    <label for="email" style="color: black;">Grade</label>
-                                    <input type="text" class="form-control" id="grade" name="grade" aria-describedby="name" placeholder="Enter updated grade">
-                                    <input type="hidden" value="{{submission[8]}}" id="uuid" name="uuid">
-                                    <input type="hidden" value="{{submission[0]}}" id="roll_no" name="roll_no">
-
+                            <div style=" text-align: center;">
+                              <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" >View Report</button>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" role="dialog">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h4 class="modal-title">Plagiarism Report</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    <table>
+                                      <p>The following report displays the percentage of Plagiarism (/similarity) in <b>*name,roll no*</b> submitted asnwers in comparison to other roll numbers in the class</p>
+                                      <table>
+                                        <tr>
+                                          <th> Roll Number</th>
+                                          <th> Plagiarism Percentage</th>
+                                        </tr>
+                                        <tr>
+                                          <td> a</td>
+                                          <td>a</td>
+                                        </tr>
+                                      </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
                                   </div>
                                 </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                  <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-                                </form>
                               </div>
                             </div>
-                          </div>
+                            {% else %}
+                            <div style=" text-align: center;">
+                              <button class="btn btn-success btn-sm">Generate Report</button>
+                            </div>
+                          </td>
+                          {% endif %}
+                          {% if submission[3] == 'NA' %}
+                            <td width = 1%>
+                              <div style=" text-align: center;">
+                                <button class="btn btn-success btn-sm">Generate Marks</button>
+                              </div>
+                            </td>
                           {% else %}
-                          <td width = 8% class="text-center" >Accepted <img src="{{url_for('static', filename='check.png')}}" height=5%></td>-->
-                          <!--{% endif %} -->
+                            <td width = 1%>{{submission[3]}}</td>
+                          {% endif %}
                         </tr>
                         {% endfor %}
                       </tbody>
                     </table>
                   </div>
                   {% else %}
-
                   {% endif %}
                 </div>
               </div>
-
             </div>
           </div>
         </section>
-        <!-- End Schedule Section -->
+
 
         <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">

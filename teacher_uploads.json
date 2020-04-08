@@ -4,22 +4,30 @@
             [
                 "CSE_8.PDF.pdf",
                 "Major",
-                "Lesson plan"
+                "Lesson plan",
+                "NA",
+                "NA"
             ],
             [
                 "CSM manual.pdf",
                 "Lab expermient",
-                "Manual "
+                "Manual ",
+                "NA",
+                "NA"
             ],
             [
                 "CSM file (1).docx",
                 "Lab expermient",
-                "File "
+                "File ",
+                "NA",
+                "NA"
             ],
             [
                 "201689.pdf",
                 "Minor2",
-                "Sample "
+                "Sample ",
+                "NA",
+                "NA"
             ]
         ],
         "essay_topics": [
