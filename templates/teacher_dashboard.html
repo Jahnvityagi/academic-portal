@@ -545,9 +545,9 @@
                       {% for submission in submissions %}
                       <tr>
                         <td width = 1%>{{submission[0]}}</td>
-                        <td width = 5%>{{submission[1]}}</td>
-                        <td width = 7%><a href="{{submission[5]}}">{{submission[6]}} </a> </td>
-                        <td width = 5%>{{submission[2]}}</td>
+                        <td width = 7%>{{submission[1]}}</td>
+                        <td width = 4%><a href="{{submission[5]}}">{{submission[6]}} </a> </td>
+                        <td width = 7%>{{submission[2]}}</td>
                         <td width = 5%>
                           {% if submission[4] != 'NA' %}
                           <div class="container">
@@ -563,16 +563,18 @@
                                   </div>
                                   <div class="modal-body">
                                     <table>
-                                      <p>The following report displays the percentage of Plagiarism (/similarity) in <b>*name,roll no*</b> submitted asnwers in comparison to other roll numbers in the class</p>
+                                      <p>The following report displays the percentage of Plagiarism (/similarity) in <b>{{submission[0]}}</b> submitted asnwers in comparison to other roll numbers in the class</p>
                                       <table>
                                         <tr>
                                           <th> Roll Number</th>
                                           <th> Plagiarism Percentage</th>
                                         </tr>
+                                        {% for item in submission[4]%}
                                         <tr>
-                                          <td> a</td>
-                                          <td>a</td>
+                                          <td> {{item[0][0]}} </td>
+                                          <td>{{'%0.2f' % item[1]|float}}%</td>
                                         </tr>
+                                        {% endfor %}
                                       </table>
                                     </div>
                                     <div class="modal-footer">
@@ -584,7 +586,12 @@
                             </div>
                             {% else %}
                             <div style=" text-align: center;">
-                              <button class="btn btn-success btn-sm">Generate Report</button>
+                              <form action="getPlagiarism" method="post">
+                                <input type="hidden" value= "{{submission[0]}}" name="roll_no" id="roll_no">
+                                <input type="hidden" value= "{{submission[6]}}" name="file" id="file">
+                                <input type="hidden" value= "{{submission[7]}}" name="uuid" id="uuid">
+                                <button type="submit" class="btn btn-success btn-sm">Generate Report</button>
+                              </form>
                             </div>
                           </td>
                           {% endif %}
@@ -610,31 +617,6 @@
           </div>
         </section>
 
-
-        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <form action="" method="post">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">Edit grade</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="form-group">
-                    <label for="email" style="color: black;">Grade</label>
-                    <input type="text" class="form-control" id="grade" name="grade" aria-describedby="name" placeholder="Enter updated grade">
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
 
         <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
         <div id="preloader"></div>

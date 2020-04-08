@@ -2,7 +2,9 @@ from flask import Flask, render_template, request, redirect, url_for, flash, abo
 import uuid, os, json, dropbox
 from whitenoise import WhiteNoise
 from datetime import datetime
-import time
+import time,nltk
+from nltk.stem import WordNetLemmatizer
+lemmatizer = WordNetLemmatizer()
 
 def datetime_from_utc_to_local(utc_datetime):
     now_timestamp = time.time()
@@ -24,14 +26,76 @@ class TransferData:
         dbx.files_upload(f.read(), file_to)
 
 transferData = TransferData(API_KEY)
+import docx
+
+def getText(filename):
+    doc = docx.Document(filename)
+    fullText = []
+    for para in doc.paragraphs:
+        fullText.append(para.text)
+    return '\n'.join(fullText)
+
 def generateSummary(notes):
     return notes
 
 def generateAssignment(notes):
     return notes
 
-def getPlagiarism(file):
-    return 0
+def calculatePlagiarism(filename,uploads):
+    tzr = nltk.tokenize.RegexpTokenizer(r'\w+')
+    plagiarism = []
+    dbx_client.files_download_to_file(filename, '/academic_portal_data/student_uploads/' + filename)
+    if filename.endswith('.docx'):
+        text = getText(filename)
+    else:
+        f = open(filename,'r')
+        text = f.read()
+    unique_words = set(tzr.tokenize(text))
+    unique_words_ns1 = set()
+    stopwords = nltk.corpus.stopwords.words('english')
+    for word in unique_words:
+        if word not in stopwords:
+            unique_words_ns1.add(lemmatizer.lemmatize(word))
+    os.remove(filename)
+    for upload in uploads:
+        if upload[0] == filename:
+            continue
+        dbx_client.files_download_to_file(upload[0], '/academic_portal_data/student_uploads/' + upload[0])
+        if upload[0].endswith('.docx'):
+            text = getText(upload[0])
+        else:
+            f = open(upload[0],'r')
+            text = f.read()
+        unique_words = set(tzr.tokenize(text))
+        unique_words_ns2 = set()
+        stopwords = nltk.corpus.stopwords.words('english')
+        for word in unique_words:
+            if word not in stopwords:
+                unique_words_ns2.add(lemmatizer.lemmatize(word))
+        intersection_len = len(unique_words_ns1.intersection(unique_words_ns2))
+        union_len = len(unique_words_ns1.union(unique_words_ns2))
+        plagiarism.append(([upload[3]],intersection_len / union_len))
+        os.remove(upload[0])
+    plagiarism.sort(reverse = True)
+    return plagiarism
+
+@app.route('/getPlagiarism', methods=['POST'])
+def getPlagiarism():
+    roll_no = request.form['roll_no']
+    filename = request.form['file']
+    uuid = request.form['uuid']
+    uploads = {}
+    with open('student_uploads.json','r') as su:
+        uploads = json.load(su)
+    plag = calculatePlagiarism(filename,uploads[uuid])
+    for upload in uploads[uuid]:
+        if upload[3] == roll_no:
+                upload[2] = plag
+                break
+    with open('student_uploads.json', 'w') as su:
+        json.dump(uploads, su, indent=4)
+    flash('Plagiarism Report generated successfully.')
+    return redirect(url_for('teacher_dashboard'))
 
 def getMarks(file):
     return 90
