@@ -552,16 +552,19 @@
                           {% if submission[4] != 'NA' %}
                           <div class="container">
                             <div style=" text-align: center;">
-                              <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" >View Report</button>
+                              {% set modalID = "ID" ~ submission[7] ~ submission[0] %}
+                              <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#{{modalID}}" >View Report</button>
+
                             </div>
                             <!-- Modal -->
-                            <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal fade" id="{{modalID}}" role="dialog">
                               <div class="modal-dialog">
                                 <div class="modal-content">
                                   <div class="modal-header">
                                     <h4 class="modal-title">Plagiarism Report</h4>
                                   </div>
                                   <div class="modal-body">
+                                    {% if submission[4]| length > 0%}
                                     <table>
                                       <p>The following report displays the percentage of Plagiarism (/similarity) in <b>{{submission[0]}}</b> submitted asnwers in comparison to other roll numbers in the class</p>
                                       <table>
@@ -571,11 +574,14 @@
                                         </tr>
                                         {% for item in submission[4]%}
                                         <tr>
-                                          <td> {{item[0][0]}} </td>
-                                          <td>{{'%0.2f' % item[1]|float}}%</td>
+                                          <td> {{item[1]}} </td>
+                                          <td>{{'%0.2f' % item[0]|float}}%</td>
                                         </tr>
                                         {% endfor %}
                                       </table>
+                                      {% else %}
+                                      <h6> There are no other submissions for this assignment. </h6>
+                                      {% endif %}
                                     </div>
                                     <div class="modal-footer">
                                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

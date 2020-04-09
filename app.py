@@ -74,9 +74,11 @@ def calculatePlagiarism(filename,uploads):
                 unique_words_ns2.add(lemmatizer.lemmatize(word))
         intersection_len = len(unique_words_ns1.intersection(unique_words_ns2))
         union_len = len(unique_words_ns1.union(unique_words_ns2))
-        plagiarism.append(([upload[3]],intersection_len / union_len))
+        plagiarism.append((((intersection_len / union_len)*100),upload[3]))
         os.remove(upload[0])
+    print("*****************",plagiarism)
     plagiarism.sort(reverse = True)
+    print(plagiarism)
     return plagiarism
 
 @app.route('/getPlagiarism', methods=['POST'])
