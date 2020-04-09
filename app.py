@@ -168,7 +168,6 @@ def calculatePlagiarism(filename,uploads):
             text = f.read()
         unique_words = set(tzr.tokenize(text))
         unique_words_ns2 = set()
-        stopwords = nltk.corpus.stopwords.words('english')
         for word in unique_words:
             if word not in stopwords:
                 unique_words_ns2.add(lemmatizer.lemmatize(word))
