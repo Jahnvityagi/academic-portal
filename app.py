@@ -1,9 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, abort, session, jsonify
-import uuid, os, json, dropbox
 from whitenoise import WhiteNoise
 from datetime import datetime
-import time,nltk
 from nltk.stem import WordNetLemmatizer
+from spellchecker import SpellChecker
+from tensorflow.keras.models import model_from_json
+from spellchecker import SpellChecker
+from nltk.corpus import wordnet as wn
+from xml.etree import ElementTree
+import uuid, os, json, dropbox, time, nltk, textstat, http.client, urllib.request, urllib.parse, urllib.error, docx
+import numpy as np
+
 lemmatizer = WordNetLemmatizer()
 
 def datetime_from_utc_to_local(utc_datetime):
@@ -16,6 +22,7 @@ app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
 app.secret_key = 'h432hi5ohi3h5i5hi3o2hi'
 API_KEY = 'BT1HAVEIyxAAAAAAAAAA-vYVvR_YifDzLeKTeYEAwAVCmqP17a2t3vEuQZGvjloV'
 dbx_client = dropbox.Dropbox(API_KEY)
+stopwords = nltk.corpus.stopwords.words('english')
 
 class TransferData:
     def __init__(self, access_token):
@@ -26,7 +33,101 @@ class TransferData:
         dbx.files_upload(f.read(), file_to)
 
 transferData = TransferData(API_KEY)
-import docx
+
+
+_key = None
+
+def setDefaultKey(key):
+    global _key
+    _key = key
+
+def checkDocument(text, key=None):
+    global _key
+    if key is None:
+        if _key is None:
+            raise Exception('Please provide key as argument or set it using setDefaultKey() first')
+        key = _key
+
+    params = urllib.parse.urlencode({
+        'key': key,
+        'data': text,
+    })
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': '*/*',
+        'User-Agent':' python-ATD',
+    }
+    service = http.client.HTTPConnection("service.afterthedeadline.com")
+    service.request("POST", "/checkDocument", body=params, headers=headers)
+    response = service.getresponse()
+    if response.status != http.client.OK:
+        service.close()
+        raise Exception('Unexpected response code from AtD service %d' % response.status)
+    response_text = response.read()
+    e = ElementTree.fromstring(response_text)
+    service.close()
+    errs = e.findall('message')
+    if len(errs) > 0:
+        raise Exception('Server returned an error: %s' % errs[0].text)
+    return [Error(err) for err in e.findall('error')]
+
+class Error:
+    """ AtD Error Object"""
+    def __init__(self, e):
+        self.string = e.find('string').text
+        self.description = e.find('description').text
+        self.precontext = e.find('precontext').text
+        self.type = e.find('type').text
+        if not e.find('url') is None:
+            self.url = e.find('url').text
+        else:
+            self.url = ""
+        if not e.find('suggestions') is None:
+            self.suggestions = [o.text for o in e.find('suggestions').findall('option')]
+        else:
+            self.suggestions = []
+    def __str__(self):
+        return "%s (%s)" % (self.string, self.description)
+
+def getGrammarMistakes(essay):
+    cnt = 0
+    setDefaultKey('mygra2019#shs')
+    errs=checkDocument(essay)
+    for error in errs:
+        if error.type=="grammar":
+            cnt+=1
+    return cnt
+
+storage = {}
+def getTopicCoherenceScore(essay_words, topic_words):
+    score = 0
+    for topic_word in topic_words:
+        for essay_word in essay_words:
+            myScore = 0
+            if (topic_word,essay_word) not in storage:
+                maximum_similarity = -1
+                t_synset = wn.synsets(topic_word)
+                s_synset = wn.synsets(essay_word)
+                if (len (t_synset) != 0 and len (s_synset) != 0):
+                    for synset_one in t_synset:
+                        for synset_two in s_synset:
+                            similarity = wn.path_similarity (synset_one,synset_two)
+                            if similarity != None and similarity > maximum_similarity:
+                                maximum_similarity = similarity
+                                myScore += similarity
+                score += myScore
+                storage[(topic_word,essay_word)] = myScore
+            else:
+                score += storage[(topic_word,essay_word)]
+    return score
+
+def getAvgSentenceLength(sents):
+    avg = 0
+    tzr = nltk.tokenize.RegexpTokenizer(r'\w+')
+    for s in sents:
+        avg += len(tzr.tokenize(s))
+    avg /= len(sents)
+    return avg
 
 def getText(filename):
     doc = docx.Document(filename)
@@ -52,7 +153,6 @@ def calculatePlagiarism(filename,uploads):
         text = f.read()
     unique_words = set(tzr.tokenize(text))
     unique_words_ns1 = set()
-    stopwords = nltk.corpus.stopwords.words('english')
     for word in unique_words:
         if word not in stopwords:
             unique_words_ns1.add(lemmatizer.lemmatize(word))
@@ -76,9 +176,7 @@ def calculatePlagiarism(filename,uploads):
         union_len = len(unique_words_ns1.union(unique_words_ns2))
         plagiarism.append((((intersection_len / union_len)*100),upload[3]))
         os.remove(upload[0])
-    print("*****************",plagiarism)
     plagiarism.sort(reverse = True)
-    print(plagiarism)
     return plagiarism
 
 @app.route('/getPlagiarism', methods=['POST'])
@@ -99,8 +197,67 @@ def getPlagiarism():
     flash('Plagiarism Report generated successfully.')
     return redirect(url_for('teacher_dashboard'))
 
-def getMarks(file):
-    return 90
+def calculateMarks(text, wordLimit, topic):
+    features = []
+    sents = nltk.tokenize.sent_tokenize(text)
+    tzr = nltk.tokenize.RegexpTokenizer(r'\w+')
+    essay_words = tzr.tokenize(text)
+    topic_words = tzr.tokenize(topic)
+    essay_words_ns = []
+    topic_words_ns = []
+    for word in essay_words:
+        if word not in stopwords:
+            essay_words_ns.append(word)
+    for word in topic_words:
+           if word not in stopwords:
+               topic_words_ns.append(word)
+    features.append(len(sents)) #sentenceLength
+    features.append(len(essay_words_ns)) #wordLength
+    spell = SpellChecker()
+    features.append(len(spell.unknown(essay_words))) #spellingErrors
+    features.append(getGrammarMistakes(text)) #grammarErrors
+    features.append(getTopicCoherenceScore(essay_words_ns, topic_words_ns)) #topicCoherence
+    features.append(getAvgSentenceLength(sents)) #avgSentLen
+    features.append(len(set(essay_words_ns))) #uniqWords
+    features.append(textstat.flesch_reading_ease(text)) #fleschReadingEase
+    features.append(textstat.coleman_liau_index(text)) #CLIndex
+    features.append(wordLimit)
+    features = np.array([features])
+    json_file = open('ffn_model.json', 'r')
+    loaded_model_json = json_file.read()
+    json_file.close()
+    model = model_from_json(loaded_model_json)
+    model.load_weights("ffn_model.h5")
+    pred = list(model.predict(features)[0])
+    return pred.index(max(pred))
+
+
+@app.route('/getMarks',methods=['POST'])
+def getMarks():
+    roll_no = request.form['roll_no']
+    uuid = request.form['uuid']
+    filename = request.form['file']
+    wordLimit = request.form['wordLimit']
+    topic = request.form['topic']
+    uploads = {}
+    with open('student_uploads.json','r') as su:
+        uploads = json.load(su)
+    dbx_client.files_download_to_file(filename, '/academic_portal_data/student_uploads/' + filename)
+    if filename.endswith('.docx'):
+        text = getText(filename)
+    else:
+        f = open(filename,'r')
+        text = f.read()
+    os.remove(filename)
+    marks = calculateMarks(text, wordLimit, topic)
+    for upload in uploads[uuid]:
+        if upload[3] == roll_no:
+            upload[1] = marks
+            break
+    with open('student_uploads.json', 'w') as su:
+        json.dump(uploads, su, indent=4)
+    flash('Marks generated successfully.')
+    return redirect(url_for('teacher_dashboard'))
 
 @app.route('/')
 def home():
@@ -275,7 +432,7 @@ def teacher_dashboard():
                 for upload in student_uploads[uuid]:
                     date = datetime_from_utc_to_local(dbx_client.files_get_temporary_link('/academic_portal_data/student_uploads/' + upload[0]).metadata.client_modified)
                     file = dbx_client.files_get_temporary_link('/academic_portal_data/student_uploads/' + upload[0]).link
-                    submissions.append([upload[3], name,date, upload[1],upload[2],file, upload[0], uuid])
+                    submissions.append([upload[3], name,date, upload[1],upload[2],file, upload[0], uuid, topic[2]])
     return render_template('teacher_dashboard.html', notes=notes_details, submissions = submissions)
 
 @app.route('/teacher_notes')
