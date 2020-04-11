@@ -9,6 +9,8 @@ from nltk.corpus import wordnet as wn
 from xml.etree import ElementTree
 import uuid, os, json, dropbox, time, nltk, textstat, http.client, urllib.request, urllib.parse, urllib.error, docx
 import numpy as np
+from sklearn import preprocessing
+from tensorflow.keras import backend as K
 
 lemmatizer = WordNetLemmatizer()
 
@@ -33,7 +35,6 @@ class TransferData:
         dbx.files_upload(f.read(), file_to)
 
 transferData = TransferData(API_KEY)
-
 
 _key = None
 
@@ -222,12 +223,14 @@ def calculateMarks(text, wordLimit, topic):
     features.append(textstat.coleman_liau_index(text)) #CLIndex
     features.append(wordLimit)
     features = np.array([features])
+    features = preprocessing.normalize(features)
     json_file = open('ffn_model.json', 'r')
     loaded_model_json = json_file.read()
     json_file.close()
     model = model_from_json(loaded_model_json)
     model.load_weights("ffn_model.h5")
     pred = list(model.predict(features)[0])
+    K.clear_session()
     return pred.index(max(pred))
 
 
@@ -280,7 +283,6 @@ def register_student():
     pwd = request.form['password']
     email = request.form['email']
     roll_no = request.form['rollno']
-    print ("size=", os.path.getsize('student_credentials.json'))
     if os.path.getsize('student_credentials.json'):
         with open('student_credentials.json') as sc:
             credentials = json.load(sc)
@@ -405,19 +407,22 @@ def teacher_dashboard():
     if os.path.getsize('teacher_uploads.json'):
         with open('teacher_uploads.json') as tu:
             uploads = json.load(tu)
-    notes_details = []
+    notes_details = {}
     if session["TeacherEmail"] in uploads and "notes" in uploads[session['TeacherEmail']]:
-        for notes in uploads[session['TeacherEmail']]["notes"]:
-            name = notes[2]
-            filename = notes[0]
-            notes_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).link
-            summary_link, assignment_link = "NA", "NA"
-            if notes[3] != "NA":
-                summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes[0]).link
-            if notes[4] != "NA":
-                assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes[0]).link
-            timestamp = datetime_from_utc_to_local(dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).metadata.client_modified)
-            notes_details.append([notes_link, summary_link, assignment_link, name, timestamp, filename])
+        for subject in uploads[session['TeacherEmail']]["notes"]:
+            notes_details[subject] = []
+            for notes in uploads[session['TeacherEmail']]["notes"][subject]:
+                summary_link, assignment_link = "NA", "NA"
+                filename = notes[0]
+                name = notes[2]
+                if notes[3] != "NA":
+                    summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes[0]).link
+                if notes[4] != "NA":
+                    assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes[0]).link
+                uuid = notes[5]
+                notes_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).link
+                timestamp = datetime_from_utc_to_local(dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).metadata.client_modified)
+                notes_details[subject].append([notes_link, summary_link, assignment_link, name, timestamp, filename, uuid])
     submissions = []
     student_uploads = {}
     if os.path.getsize('student_uploads.json'):
@@ -444,19 +449,22 @@ def teacher_notes():
     if os.path.getsize('teacher_uploads.json'):
         with open('teacher_uploads.json') as tu:
             uploads = json.load(tu)
-    notes_details = []
+    notes_details = {}
     if teacher_email in uploads and "notes" in uploads[teacher_email]:
-        for notes in uploads[teacher_email]["notes"]:
-            name = notes[2]
-            filename = notes[0]
-            notes_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).link
-            summary_link, assignment_link = "NA", "NA"
-            if notes[3] != "NA":
-                summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes[0]).link
-            if notes[4] != "NA":
-                assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes[0]).link
-            timestamp = datetime_from_utc_to_local(dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).metadata.client_modified)
-            notes_details.append([notes_link, summary_link, assignment_link, name, timestamp, filename])
+        for subject in uploads[teacher_email]["notes"]:
+            notes_details[subject] = []
+            for notes in uploads[teacher_email]["notes"][subject]:
+                summary_link, assignment_link = "NA", "NA"
+                filename = notes[0]
+                name = notes[2]
+                if notes[3] != "NA":
+                    summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes[0]).link
+                if notes[4] != "NA":
+                    assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes[0]).link
+                uuid = notes[5]
+                notes_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).link
+                timestamp = datetime_from_utc_to_local(dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).metadata.client_modified)
+                notes_details[subject].append([notes_link, summary_link, assignment_link, name, timestamp, filename, uuid])
     essay_topics = []
     if teacher_email in uploads and "essay_topics" in uploads[teacher_email]:
         for topics in uploads[teacher_email]["essay_topics"]:
@@ -505,6 +513,7 @@ def upload_teacher_notes():
     topic = request.form['topic']
     exam = request.form['exam']
     notes = request.files['file']
+    sub = request.form['sub']
     file_to = '/academic_portal_data/teacher_uploads/' +  notes.filename
     transferData.upload_file(notes, file_to)
     email = session['TeacherEmail']
@@ -515,17 +524,46 @@ def upload_teacher_notes():
     if email not in uploads:
         uploads[email] = {}
     if "notes" not in uploads[email]:
-            uploads[email]["notes"] = []
-    uploads[email]["notes"].append([notes.filename, exam, topic, "NA", "NA"])
+            uploads[email]["notes"] = {}
+    id = str(uuid.uuid4())
+    if sub not in uploads[email]["notes"]:
+        uploads[email]["notes"][sub] = []
+    uploads[email]["notes"][sub].append([notes.filename, exam, topic, "NA", "NA",id])
     if os.path.getsize('teacher_uploads.json'):
         with open('teacher_uploads.json', 'w') as tu:
             json.dump(uploads, tu, indent=4)
-    # summary_to = '/academic_portal_data/teacher_uploads/generated_summaries/' +  summary.filename
-    # assignment_to = '/academic_portal_data/teacher_uploads/generated_assignments/' +  assignment.filename
-    # transferData.upload_file(summary, summary_to)
-    # transferData.upload_file(assignment, assignment_to)
     flash('Content uploaded successfully.')
     return redirect(url_for('teacher_dashboard'))
+
+@app.route('/delete_content', methods=['POST'])
+def delete_content():
+    uuid = request.form['uuid']
+    subject = request.form['subject']
+    uploads = {}
+    with open('teacher_uploads.json') as tu:
+        uploads = json.load(tu)
+    email = session['TeacherEmail']
+    filename = ""
+    for i in range(len(uploads[email]["notes"][subject])):
+        if uploads[email]["notes"][subject][i][5] == uuid:
+            filename = uploads[email]["notes"][subject][i][0]
+            summary = uploads[email]["notes"][subject][i][3]
+            assignment = uploads[email]["notes"][subject][i][4]
+            del uploads[email]["notes"][subject][i]
+    dbx_client.files_delete('/academic_portal_data/teacher_uploads/' + filename)
+    if summary != "NA":
+        dbx_client.files_delete('/academic_portal_data/teacher_uploads/summary/' + filename)
+    if assignment != "NA":
+        dbx_client.files_delete('/academic_portal_data/teacher_uploads/assignment/' + filename)
+    if len(uploads[email]["notes"][subject]) == 0:
+        del uploads[email]["notes"][subject]
+    if len(uploads[email]["notes"]) == 0:
+        del uploads[email]["notes"]
+    with open('teacher_uploads.json', 'w') as tu:
+        json.dump(uploads, tu, indent=4)
+    flash('Content deleted successfully.')
+    return redirect(url_for('teacher_dashboard'))
+
 
 @app.route('/upload_answer', methods =['POST'])
 def upload_answer():

@@ -1,35 +1,5 @@
 {
     "elakumar@igdtuw.ac.in": {
-        "notes": [
-            [
-                "CSE_8.PDF.pdf",
-                "Major",
-                "Lesson plan",
-                "NA",
-                "NA"
-            ],
-            [
-                "CSM manual.pdf",
-                "Lab expermient",
-                "Manual ",
-                "NA",
-                "NA"
-            ],
-            [
-                "CSM file (1).docx",
-                "Lab expermient",
-                "File ",
-                "NA",
-                "NA"
-            ],
-            [
-                "201689.pdf",
-                "Minor2",
-                "Sample ",
-                "NA",
-                "NA"
-            ]
-        ],
         "essay_topics": [
             [
                 "Emergence of Artificial Intelligence ",
@@ -49,6 +19,36 @@
                 "100",
                 "0b9e7b58-917b-4fc9-bf89-2a76c37ff470"
             ]
-        ]
+        ],
+        "notes": {
+            "Embedded System": [
+                [
+                    "nesting of interrupt image.doc",
+                    "Minor1",
+                    "Interrupt",
+                    "NA",
+                    "NA",
+                    "7acced12-99ec-466f-b04a-4645bc19e114"
+                ],
+                [
+                    "BTech IT 8th Sem PPT.pptx",
+                    "Minor1",
+                    "Sample",
+                    "NA",
+                    "NA",
+                    "2bc2d845-8ce9-4fdf-85bc-2671530f04de"
+                ]
+            ],
+            "Operating System": [
+                [
+                    "RTOS basics.doc",
+                    "Minor1",
+                    "RTOS Overview",
+                    "NA",
+                    "NA",
+                    "420ee872-0340-4f26-8fdb-a6a66a759041"
+                ]
+            ]
+        }
     }
 }
