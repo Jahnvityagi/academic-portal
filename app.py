@@ -191,22 +191,27 @@ def generate_summary():
 
 @app.route('/generate_assignment', methods=['POST'])
 def generate_assignment():
+    print("**********Request received")
     subject = request.form['subject']
     uuid = request.form['uuid']
     uploads = {}
     with open('teacher_uploads.json','r') as tu:
         uploads = json.load(tu)
+    print("*********UPLOAD LOADED")
     for notes in uploads[session['TeacherEmail']]["notes"][subject]:
         if notes[5] == uuid:
+            print("**********FOUND")
             filename = notes[0]
             dbx_client.files_download_to_file(filename, '/academic_portal_data/teacher_uploads/' + filename)
             basename = os.path.basename(filename)
             text = getTextFromFile(filename)
+            print("**********",text)
             a_filename = "assignment_" + os.path.splitext(basename)[0] + '.txt'
             op = open(a_filename, "w+")
             LANGUAGE = "english"
             aqg = aqgFunction.AutomaticQuestionGenerator()
             str = aqg.aqgParse(text)
+            print("*********GOT")
             count = 0
             out = ""
             for i in range(len(str)):
