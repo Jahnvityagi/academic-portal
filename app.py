@@ -21,7 +21,7 @@ from sumy.utils import get_stop_words
 import aqgFunction, questionValidation
 
 lemmatizer = WordNetLemmatizer()
-
+nlp = spacy.load('en_core_web_md')
 def datetime_from_utc_to_local(utc_datetime):
     now_timestamp = time.time()
     offset = datetime.fromtimestamp(now_timestamp) - datetime.utcfromtimestamp(now_timestamp)
@@ -211,7 +211,7 @@ def generate_assignment():
             LANGUAGE = "english"
             aqg = aqgFunction.AutomaticQuestionGenerator()
             print("******OBJ CREATED")
-            str = aqg.aqgParse(text)
+            str = aqg.aqgParse(text,nlp)
             print("*********GOT")
             count = 0
             out = ""
