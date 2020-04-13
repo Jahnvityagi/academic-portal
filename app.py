@@ -210,6 +210,7 @@ def generate_assignment():
             op = open(a_filename, "w+")
             LANGUAGE = "english"
             aqg = aqgFunction.AutomaticQuestionGenerator()
+            print("******OBJ CREATED")
             str = aqg.aqgParse(text)
             print("*********GOT")
             count = 0

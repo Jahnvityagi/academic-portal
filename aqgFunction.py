@@ -10,13 +10,14 @@ class AutomaticQuestionGenerator():
     # AQG Parsing & Generate a question
     def aqgParse(self, sentence):
 
-        #nlp = spacy.load("en")
         nlp = spacy.load('en_core_web_md')
-
+        print("*********LOADED SPACY MODEl")
         singleSentences = sentence.split(".")
         questionsList = []
+        print("**********", len(singleSentences))
         if len(singleSentences) != 0:
             for i in range(len(singleSentences)):
+                print("*********IN LOOP", i)
                 segmentSets = singleSentences[i].split(",")
 
                 ner = nerTagger(nlp, singleSentences[i])
@@ -138,6 +139,3 @@ class AutomaticQuestionGenerator():
         print("")
         print("End  OutPut")
         print("-----X-----\n\n")
-
-
-    
