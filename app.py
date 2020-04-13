@@ -19,7 +19,8 @@ from sumy.summarizers.lsa import LsaSummarizer as Summarizer
 from sumy.nlp.stemmers import Stemmer
 from sumy.utils import get_stop_words
 import aqgFunction, questionValidation
-import spacy 
+import spacy
+
 lemmatizer = WordNetLemmatizer()
 nlp = spacy.load('en_core_web_md')
 def datetime_from_utc_to_local(utc_datetime):
