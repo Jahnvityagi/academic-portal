@@ -46,7 +46,7 @@
 
 
     .delete {
-      background-color: DodgerBlue;
+      background-color: #2eca6a;
       height: 30px;
       width: 30px;
       border: none;
@@ -54,7 +54,7 @@
       cursor: pointer;
     }
 
-    /* Darker background on mouse-over */
+    /* Darker background on mouse-hover */
     .delete:hover {
       background-color: RoyalBlue;
     }
@@ -461,7 +461,11 @@
                                       {% if n[1] == "NA" %}
                                       <td class="td2" width = "200px">
                                         <div style=" text-align: center;">
-                                          <button class="btn btn-success btn-sm" >Generate</button>
+                                          <form action="generate_summary" method="post">
+                                            <input type="hidden" value="{{subject}}" id="subject" name="subject">
+                                            <input type="hidden" value="{{n[6]}}" id="uuid" name="uuid">
+                                            <button class="btn btn-success btn-sm" type="submit" >Generate</button>
+                                          </form>
                                         </div>
                                       </td>
                                       {% else %}
@@ -470,7 +474,11 @@
                                       {% if n[2] == "NA" %}
                                       <td class="td2" width = "200px">
                                         <div style=" text-align: center;">
-                                          <button class="btn btn-success btn-sm" >Generate</button>
+                                          <form action="generate_assignment" method="post">
+                                            <input type="hidden" value="{{subject}}" id="subject" name="subject">
+                                            <input type="hidden" value="{{n[6]}}" id="uuid" name="uuid">
+                                            <button class="btn btn-success btn-sm" type="submit" >Generate</button>
+                                          </form>
                                         </div>
                                       </td>
                                       {% else %}
@@ -480,7 +488,7 @@
                                         <form action="delete_content" method="post">
                                           <input type="hidden" id="uuid" name="uuid" value="{{n[6]}}">
                                           <input type="hidden" id="subject" name="subject" value="{{subject}}">
-                                          <button type="submit" class="delete" >  <i class="fa fa-trash"></i> </button>
+                                          <button type="submit" class="delete">  <i class="fa fa-trash"></i> </button>
                                         </form>
                                       </td>
                                     </tr>
@@ -524,6 +532,15 @@
                       <option value="Operating System">Operating System</option>
                       <option value="Embedded System">Embedded System</option>
                       <option value="Data Structures">Data Structures</option>
+                      <option value="Algorithm Design">Algorithm Design</option>
+                      <option value="Financial Accounting">Financial Accounting</option>
+                      <option value="Introduction to C++">Introduction to C++</option>
+                      <option value="Natural Language Processing">Natural Language Processing</option>
+                      <option value="Real Time Systems">Real Time Systems</option>
+                      <option value="Software Engineering">Software Engineering</option>
+                      <option value="Object Oriented Programming">Object Oriented Programming in C++</option>
+                      <option value="Cloud Computing">Cloud Computing</option>
+                      <option value="Artificial Intelligence">Artificial Intelligence </option>
                     </select><br><br>
                     <label>Upload document:</label>
                     <input  type="file" name="file" id="file" required>

@@ -1,3 +1,4 @@
+from __future__ import absolute_import, division, print_function, unicode_literals
 from flask import Flask, render_template, request, redirect, url_for, flash, abort, session, jsonify
 from whitenoise import WhiteNoise
 from datetime import datetime
@@ -11,6 +12,13 @@ import uuid, os, json, dropbox, time, nltk, textstat, http.client, urllib.reques
 import numpy as np
 from sklearn import preprocessing
 from tensorflow.keras import backend as K
+from sumy.parsers.html import HtmlParser
+from sumy.parsers.plaintext import PlaintextParser
+from sumy.nlp.tokenizers import Tokenizer
+from sumy.summarizers.lsa import LsaSummarizer as Summarizer
+from sumy.nlp.stemmers import Stemmer
+from sumy.utils import get_stop_words
+import aqgFunction, questionValidation
 
 lemmatizer = WordNetLemmatizer()
 
@@ -19,10 +27,23 @@ def datetime_from_utc_to_local(utc_datetime):
     offset = datetime.fromtimestamp(now_timestamp) - datetime.utcfromtimestamp(now_timestamp)
     return utc_datetime + offset
 
+def getTextFromFile(filename):
+    text = ""
+    if filename.endswith('.txt'):
+        f = open(filename,'r')
+        text = f.read()
+    elif filename.endswith('.docx'):
+        doc = docx.Document(filename)
+        fullText = []
+        for para in doc.paragraphs:
+            fullText.append(para.text)
+        text = '\n'.join(fullText)
+    return text
+
 app = Flask(__name__)
 app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
 app.secret_key = 'h432hi5ohi3h5i5hi3o2hi'
-API_KEY = 'BT1HAVEIyxAAAAAAAAAA-vYVvR_YifDzLeKTeYEAwAVCmqP17a2t3vEuQZGvjloV'
+API_KEY = 'BT1HAVEIyxAAAAAAAAAA_dBb4B64fJjvC3OtHfbL-2jr8VakU39o7eOZsrazgBhN'
 dbx_client = dropbox.Dropbox(API_KEY)
 stopwords = nltk.corpus.stopwords.words('english')
 
@@ -130,28 +151,102 @@ def getAvgSentenceLength(sents):
     avg /= len(sents)
     return avg
 
-def getText(filename):
-    doc = docx.Document(filename)
-    fullText = []
-    for para in doc.paragraphs:
-        fullText.append(para.text)
-    return '\n'.join(fullText)
+@app.route('/generate_summary', methods=['POST'])
+def generate_summary():
+    subject = request.form['subject']
+    uuid = request.form['uuid']
+    uploads = {}
+    with open('teacher_uploads.json','r') as tu:
+        uploads = json.load(tu)
+    for notes in uploads[session['TeacherEmail']]["notes"][subject]:
+        if notes[5] == uuid:
+            filename = notes[0]
+            dbx_client.files_download_to_file(filename, '/academic_portal_data/teacher_uploads/' + filename)
+            basename = os.path.basename(filename)
+            text = getTextFromFile(filename)
+            s_filename = "summary_" + os.path.splitext(basename)[0] + '.txt'
+            op = open(s_filename, "w+")
+            LANGUAGE = "english"
+            num_sents = len(nltk.tokenize.sent_tokenize(text))
+            SENTENCES_COUNT = num_sents // 2
+            parser = PlaintextParser.from_string(text, Tokenizer(LANGUAGE))
+            stemmer = Stemmer(LANGUAGE)
+            summarizer = Summarizer(stemmer)
+            summarizer.stop_words = get_stop_words(LANGUAGE)
+            for sentence in summarizer(parser.document, SENTENCES_COUNT):
+                op.write(str(sentence))
+            op.close()
+            ip = open(s_filename, "rb")
+            file_to = '/academic_portal_data/teacher_uploads/generated_summaries/' + s_filename
+            transferData.upload_file(ip, file_to)
+            ip.close()
+            os.remove(filename)
+            os.remove(s_filename)
+            notes[3] = s_filename
+            break
+    with open('teacher_uploads.json','w') as tu:
+        json.dump(uploads, tu, indent=4)
+    flash('Summary generated successfully.')
+    return redirect(url_for('teacher_dashboard'))
 
-def generateSummary(notes):
-    return notes
-
-def generateAssignment(notes):
-    return notes
+@app.route('/generate_assignment', methods=['POST'])
+def generate_assignment():
+    subject = request.form['subject']
+    uuid = request.form['uuid']
+    uploads = {}
+    with open('teacher_uploads.json','r') as tu:
+        uploads = json.load(tu)
+    for notes in uploads[session['TeacherEmail']]["notes"][subject]:
+        if notes[5] == uuid:
+            filename = notes[0]
+            dbx_client.files_download_to_file(filename, '/academic_portal_data/teacher_uploads/' + filename)
+            basename = os.path.basename(filename)
+            text = getTextFromFile(filename)
+            a_filename = "assignment_" + os.path.splitext(basename)[0] + '.txt'
+            op = open(a_filename, "w+")
+            LANGUAGE = "english"
+            aqg = aqgFunction.AutomaticQuestionGenerator()
+            str = aqg.aqgParse(text)
+            count = 0
+            out = ""
+            for i in range(len(str)):
+                if (len(str[i]) >= 3):
+                    if (questionValidation.hNvalidation(str[i]) == 1):
+                        if ((str[i][0] == 'W' and str[i][1] == 'h') or (str[i][0] == 'H' and str[i][1] == 'o') or (
+                                str[i][0] == 'H' and str[i][1] == 'a')):
+                            WH = str[i].split(',')
+                            if (len(WH) == 1):
+                                str[i] = str[i][:-1]
+                                str[i] = str[i][:-1]
+                                str[i] = str[i][:-1]
+                                str[i] = str[i] + "?"
+                                count = count + 1
+                                if (count < 10):
+                                    print("Q-0%d: %s" % (count, str[i]))
+                                    out += "Q-0" + count.__str__() + ": " + str[i] + "\n"
+                                else:
+                                    print("Q-%d: %s" % (count, str[i]))
+                                    out += "Q-" + count.__str__() + ": " + str[i] + "\n"
+            op.write(out)
+            op.close()
+            ip = open(a_filename, "rb")
+            file_to = '/academic_portal_data/teacher_uploads/generated_assignments/' + a_filename
+            transferData.upload_file(ip, file_to)
+            ip.close()
+            os.remove(filename)
+            os.remove(a_filename)
+            notes[4] = a_filename
+            break
+    with open('teacher_uploads.json','w') as tu:
+        json.dump(uploads, tu, indent=4)
+    flash('Assignment generated successfully.')
+    return redirect(url_for('teacher_dashboard'))
 
 def calculatePlagiarism(filename,uploads):
     tzr = nltk.tokenize.RegexpTokenizer(r'\w+')
     plagiarism = []
     dbx_client.files_download_to_file(filename, '/academic_portal_data/student_uploads/' + filename)
-    if filename.endswith('.docx'):
-        text = getText(filename)
-    else:
-        f = open(filename,'r')
-        text = f.read()
+    text = getTextFromFile(filename)
     unique_words = set(tzr.tokenize(text))
     unique_words_ns1 = set()
     for word in unique_words:
@@ -162,11 +257,7 @@ def calculatePlagiarism(filename,uploads):
         if upload[0] == filename:
             continue
         dbx_client.files_download_to_file(upload[0], '/academic_portal_data/student_uploads/' + upload[0])
-        if upload[0].endswith('.docx'):
-            text = getText(upload[0])
-        else:
-            f = open(upload[0],'r')
-            text = f.read()
+        text = getTextFromFile(upload[0])
         unique_words = set(tzr.tokenize(text))
         unique_words_ns2 = set()
         for word in unique_words:
@@ -245,11 +336,7 @@ def getMarks():
     with open('student_uploads.json','r') as su:
         uploads = json.load(su)
     dbx_client.files_download_to_file(filename, '/academic_portal_data/student_uploads/' + filename)
-    if filename.endswith('.docx'):
-        text = getText(filename)
-    else:
-        f = open(filename,'r')
-        text = f.read()
+    text = getTextFromFile(filename)
     os.remove(filename)
     marks = calculateMarks(text, wordLimit, topic)
     for upload in uploads[uuid]:
@@ -416,9 +503,9 @@ def teacher_dashboard():
                 filename = notes[0]
                 name = notes[2]
                 if notes[3] != "NA":
-                    summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes[0]).link
+                    summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes[3]).link
                 if notes[4] != "NA":
-                    assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes[0]).link
+                    assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes[4]).link
                 uuid = notes[5]
                 notes_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).link
                 timestamp = datetime_from_utc_to_local(dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).metadata.client_modified)
@@ -458,9 +545,9 @@ def teacher_notes():
                 filename = notes[0]
                 name = notes[2]
                 if notes[3] != "NA":
-                    summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes[0]).link
+                    summary_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_summaries/' + notes[3]).link
                 if notes[4] != "NA":
-                    assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes[0]).link
+                    assignment_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/generated_assignments/' + notes[4]).link
                 uuid = notes[5]
                 notes_link = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).link
                 timestamp = datetime_from_utc_to_local(dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + notes[0]).metadata.client_modified)
@@ -550,11 +637,12 @@ def delete_content():
             summary = uploads[email]["notes"][subject][i][3]
             assignment = uploads[email]["notes"][subject][i][4]
             del uploads[email]["notes"][subject][i]
+    print(filename)
     dbx_client.files_delete('/academic_portal_data/teacher_uploads/' + filename)
     if summary != "NA":
-        dbx_client.files_delete('/academic_portal_data/teacher_uploads/summary/' + filename)
+        dbx_client.files_delete('/academic_portal_data/teacher_uploads/generated_summaries/' + summary)
     if assignment != "NA":
-        dbx_client.files_delete('/academic_portal_data/teacher_uploads/assignment/' + filename)
+        dbx_client.files_delete('/academic_portal_data/teacher_uploads/generated_assignments/' + assignment)
     if len(uploads[email]["notes"][subject]) == 0:
         del uploads[email]["notes"][subject]
     if len(uploads[email]["notes"]) == 0:
