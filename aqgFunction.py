@@ -9,7 +9,7 @@ from nlpNER import nerTagger
 class AutomaticQuestionGenerator():
     # AQG Parsing & Generate a question
     def aqgParse(self, sentence):
-
+        print("HERE*******")
         nlp = spacy.load('en_core_web_md')
         print("*********LOADED SPACY MODEl")
         singleSentences = sentence.split(".")
