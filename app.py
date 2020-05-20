@@ -599,6 +599,19 @@ def upload_essay_topic():
     flash('Topic uploaded successfully.')
     return redirect(url_for('teacher_dashboard'))
 
+def isExists(filename):
+    ret = False;
+    try :
+        existingEntry = dbx_client.files_get_temporary_link('/academic_portal_data/teacher_uploads/' + filename)
+        print("entry", existingEntry)
+        if existingEntry is not None:
+            ret = True;
+    except Exception as e:
+        print("exception:",e)
+        ret = False;
+    return ret;
+
+
 @app.route('/upload_teacher_notes', methods = ['POST'])
 def upload_teacher_notes():
     if not session.get('TeacherLoggedIn'):
@@ -608,7 +621,12 @@ def upload_teacher_notes():
     exam = request.form['exam']
     notes = request.files['file']
     sub = request.form['sub']
+    print("***checking", isExists(notes.filename))
+    if isExists(notes.filename):
+        flash('Please re-name your file and try again')
+        return redirect(url_for('teacher_dashboard'))
     file_to = '/academic_portal_data/teacher_uploads/' +  notes.filename
+    print("****Uploading")
     transferData.upload_file(notes, file_to)
     email = session['TeacherEmail']
     uploads = {}
