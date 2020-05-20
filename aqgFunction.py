@@ -1,9 +1,8 @@
 import spacy
 import clause
-import nonClause
-import identification
-import questionValidation
-from nlpNER import nerTagger
+import not_clause
+import identify_all
+import nlpNER
 
 
 class AutomaticQuestionGenerator():
@@ -12,115 +11,112 @@ class AutomaticQuestionGenerator():
         print("HERE*******")
         nlp = spacy.load('en_core_web_md')
         print("*********LOADED SPACY MODEl")
-        singleSentences = sentence.split(".")
-        questionsList = []
-        print("**********", len(singleSentences))
-        if len(singleSentences) != 0:
-            for i in range(len(singleSentences)):
-                print("*********IN LOOP", i)
-                segmentSets = singleSentences[i].split(",")
+        single_sentences = sentence.split(".")
+        list_of_ques = []
+        if len(single_sentences) != 0:
+            for i in range(len(single_sentences)):
+                segmentSets = single_sentences[i].split(",")
 
-                ner = nerTagger(nlp, singleSentences[i])
+                tagger = nlpNER.tagger_func(nlp, single_sentences[i])
 
                 if (len(segmentSets)) != 0:
                     for j in range(len(segmentSets)):
                         try:
-                            questionsList += clause.howmuch_2(segmentSets, j, ner)
+                            list_of_ques += clause.howmuch_2(segmentSets, j, tagger)
                         except Exception:
                             pass
 
-                        if identification.clause_identify(segmentSets[j]) == 1:
+                        if identify_all.identify_the_clause(segmentSets[j]) == 1:
                             try:
-                                questionsList += clause.whom_1(segmentSets, j, ner)
+                                list_of_ques += clause.whom_1(segmentSets, j, tagger)
                             except Exception:
                                 pass
                             try:
-                                questionsList += clause.whom_2(segmentSets, j, ner)
+                                list_of_ques += clause.whom_2(segmentSets, j, tagger)
                             except Exception:
                                 pass
                             try:
-                                questionsList += clause.whom_3(segmentSets, j, ner)
+                                list_of_ques += clause.whom_3(segmentSets, j, tagger)
                             except Exception:
                                 pass
                             try:
-                                questionsList += clause.whose(segmentSets, j, ner)
+                                list_of_ques += clause.whose(segmentSets, j, tagger)
                             except Exception:
                                 pass
                             try:
-                                questionsList += clause.what_to_do(segmentSets, j, ner)
+                                list_of_ques += clause.what_to_do(segmentSets, j, tagger)
                             except Exception:
                                 pass
                             try:
-                                questionsList += clause.who(segmentSets, j, ner)
+                                list_of_ques += clause.who(segmentSets, j, tagger)
                             except Exception:
                                 pass
                             try:
-                                questionsList += clause.howmuch_1(segmentSets, j, ner)
+                                list_of_ques += clause.howmuch_1(segmentSets, j, tagger)
                             except Exception:
                                 pass
                             try:
-                                questionsList += clause.howmuch_3(segmentSets, j, ner)
+                                list_of_ques += clause.howmuch_3(segmentSets, j, tagger)
                             except Exception:
                                 pass
 
 
                             else:
                                 try:
-                                    s = identification.subjectphrase_search(segmentSets, j)
-                                except Exception:
-                                    pass
+                                    s = identify_all.subjectphrase_search(segmentSets, j)
+                                except Exception as e: print(e)
 
                                 if len(s) != 0:
                                     segmentSets[j] = s + segmentSets[j]
                                     try:
-                                        questionsList += clause.whom_1(segmentSets, j, ner)
+                                        list_of_ques += clause.whom_1(segmentSets, j, tagger)
                                     except Exception:
                                         pass
                                     try:
-                                        questionsList += clause.whom_2(segmentSets, j, ner)
+                                        list_of_ques += clause.whom_2(segmentSets, j, tagger)
                                     except Exception:
                                         pass
                                     try:
-                                        questionsList += clause.whom_3(segmentSets, j, ner)
+                                        list_of_ques += clause.whom_3(segmentSets, j, tagger)
                                     except Exception:
                                         pass
                                     try:
-                                        questionsList += clause.whose(segmentSets, j, ner)
+                                        list_of_ques += clause.whose(segmentSets, j, tagger)
                                     except Exception:
                                         pass
                                     try:
-                                        questionsList += clause.what_to_do(segmentSets, j, ner)
+                                        list_of_ques += clause.what_to_do(segmentSets, j, tagger)
                                     except Exception:
                                         pass
                                     try:
-                                        questionsList += clause.who(segmentSets, j, ner)
+                                        list_of_ques += clause.who(segmentSets, j, tagger)
                                     except Exception:
                                         pass
 
                                     else:
                                         try:
-                                            questionsList += nonClause.what_whom1(segmentSets, j, ner)
+                                            list_of_ques += not_clause.what_whom1(segmentSets, j, tagger)
                                         except Exception:
                                             pass
                                         try:
-                                            questionsList += nonClause.what_whom2(segmentSets, j, ner)
+                                            list_of_ques += not_clause.what_whom2(segmentSets, j, tagger)
                                         except Exception:
                                             pass
                                         try:
-                                            questionsList += nonClause.whose(segmentSets, j, ner)
+                                            list_of_ques += not_clause.whose(segmentSets, j, tagger)
                                         except Exception:
                                             pass
                                         try:
-                                            questionsList += nonClause.howmany(segmentSets, j, ner)
+                                            list_of_ques += not_clause.howmany(segmentSets, j, tagger)
                                         except Exception:
                                             pass
                                         try:
-                                            questionsList += nonClause.howmuch_1(segmentSets, j, ner)
+                                            list_of_ques += not_clause.howmuch_1(segmentSets, j, tagger)
                                         except Exception:
                                             pass
 
-                questionsList.append('\n')
-        return questionsList
+                list_of_ques.append('\n')
+        return list_of_ques
 
 
 

@@ -18,7 +18,7 @@ from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lsa import LsaSummarizer as Summarizer
 from sumy.nlp.stemmers import Stemmer
 from sumy.utils import get_stop_words
-import aqgFunction, questionValidation
+import aqgFunction, nlpNER
 
 lemmatizer = WordNetLemmatizer()
 
@@ -57,6 +57,7 @@ class TransferData:
 
 transferData = TransferData(API_KEY)
 
+#grammar checker API code from: https://github.com/Shahabks/mystracher/blob/master/mystracher.py
 _key = None
 
 def setDefaultKey(key):
@@ -166,15 +167,13 @@ def generate_summary():
             text = getTextFromFile(filename)
             s_filename = "summary_" + os.path.splitext(basename)[0] + '.txt'
             op = open(s_filename, "w+")
-            LANGUAGE = "english"
-            num_sents = len(nltk.tokenize.sent_tokenize(text))
-            SENTENCES_COUNT = num_sents // 2
-            parser = PlaintextParser.from_string(text, Tokenizer(LANGUAGE))
-            stemmer = Stemmer(LANGUAGE)
-            summarizer = Summarizer(stemmer)
-            summarizer.stop_words = get_stop_words(LANGUAGE)
-            for sentence in summarizer(parser.document, SENTENCES_COUNT):
-                op.write(str(sentence))
+            num_sents = len(nltk.tokenize.sent_tokenize(text)) // 2
+            parseObj = PlaintextParser.from_string(text, Tokenizer("english"))
+            stemObj = Stemmer("english")
+            summarizer = Summarizer(stemObj)
+            summarizer.stop_words = get_stop_words("english")
+            for s in summarizer(parseObj.document, num_sents):
+                op.write(str(s))
             op.close()
             ip = open(s_filename, "rb")
             file_to = '/academic_portal_data/teacher_uploads/generated_summaries/' + s_filename
@@ -217,7 +216,7 @@ def generate_assignment():
             out = ""
             for i in range(len(str)):
                 if (len(str[i]) >= 3):
-                    if (questionValidation.hNvalidation(str[i]) == 1):
+                    if (nlpNER.hn_validate(str[i]) == 1):
                         if ((str[i][0] == 'W' and str[i][1] == 'h') or (str[i][0] == 'H' and str[i][1] == 'o') or (
                                 str[i][0] == 'H' and str[i][1] == 'a')):
                             WH = str[i].split(',')
@@ -227,9 +226,11 @@ def generate_assignment():
                                 str[i] = str[i][:-1]
                                 str[i] = str[i] + "?"
                                 count = count + 1
+
                                 if (count < 10):
                                     print("Q-0%d: %s" % (count, str[i]))
                                     out += "Q-0" + count.__str__() + ": " + str[i] + "\n"
+
                                 else:
                                     print("Q-%d: %s" % (count, str[i]))
                                     out += "Q-" + count.__str__() + ": " + str[i] + "\n"
@@ -622,9 +623,8 @@ def upload_teacher_notes():
     if sub not in uploads[email]["notes"]:
         uploads[email]["notes"][sub] = []
     uploads[email]["notes"][sub].append([notes.filename, exam, topic, "NA", "NA",id])
-    if os.path.getsize('teacher_uploads.json'):
-        with open('teacher_uploads.json', 'w') as tu:
-            json.dump(uploads, tu, indent=4)
+    with open('teacher_uploads.json', 'w') as tu:
+        json.dump(uploads, tu, indent=4)
     flash('Content uploaded successfully.')
     return redirect(url_for('teacher_dashboard'))
 
