@@ -6,11 +6,169 @@
                     "Disasters.docx",
                     "Minor1",
                     "intro to disasters",
-                    "NA",
+                    "summary_Disasters.txt",
                     "NA",
                     "7593022f-1b4b-492b-b594-5cd503a8e88f"
                 ]
             ]
+        },
+        "essay_topics": [
+            [
+                "RTOS Overview",
+                "05/22/2020",
+                "200",
+                "237771db-5c20-4cb0-9131-05cc438c43da"
+            ]
+        ]
+    },
+    "srnreddy@igdtuw.ac.in": {
+        "essay_topics": [
+            [
+                "RTOS Overview",
+                "05/30/2020",
+                "300",
+                "f599de96-de4f-407d-af92-7a0076ecdeaf"
+            ]
+        ],
+        "notes": {
+            "Disaster Mangement": [
+                [
+                    "Disaster.docx",
+                    "Major",
+                    "Introduction to Disasters",
+                    "NA",
+                    "NA",
+                    "87bc8ec6-2ccc-4948-8959-748d83f828da"
+                ]
+            ],
+            "Natural Language Processing": [
+                [
+                    "PageRank.docx",
+                    "Minor1",
+                    "Page rank",
+                    "NA",
+                    "NA",
+                    "741b1fa2-5cad-44f1-b4cd-6fb433198ec4"
+                ]
+            ]
         }
+    },
+    "dktayal@igdtuw.ac.in": {
+        "notes": {
+            "Disaster Mangement": [
+                [
+                    "Disastersmgmt.docx",
+                    "Minor1",
+                    "Disasters",
+                    "NA",
+                    "NA",
+                    "6ab2d1fe-7b1a-4b0b-b02e-314b7f82fd3a"
+                ]
+            ],
+            "Natural Language Processing": [
+                [
+                    "PageRank Algorithm3.txt",
+                    "Major",
+                    "Introduction to page rank",
+                    "NA",
+                    "NA",
+                    "d0fac237-d250-4c84-8fcd-5b9839110468"
+                ]
+            ]
+        },
+        "essay_topics": [
+            [
+                "RTOS Overview",
+                "05/31/2020",
+                "300",
+                "fb8c4881-6cc1-4824-ace9-14db0142a862"
+            ]
+        ]
+    },
+    "seejakr@igdtuw.ac.in": {
+        "notes": {
+            "Disaster Mangement": [
+                [
+                    "Disasters1.docx",
+                    "Minor1",
+                    "Disaster management",
+                    "NA",
+                    "NA",
+                    "f44975f0-8d0c-4e58-bb73-57b3ece5097a"
+                ]
+            ]
+        },
+        "essay_topics": [
+            [
+                "RTOS Overview",
+                "05/31/2020",
+                "200",
+                "39683f7b-2cc7-487d-982e-445a75b21255"
+            ]
+        ]
+    },
+    "vivekanandajha@igdtuw.ac.in": {
+        "notes": {
+            "Disaster Mangement": [
+                [
+                    "Disaster13.docx",
+                    "Major",
+                    "Disasters",
+                    "NA",
+                    "NA",
+                    "483b7a37-253c-4154-bc32-f730a36f8f63"
+                ]
+            ],
+            "Natural Language Processing": [
+                [
+                    "PageRank Algorithm-2.txt",
+                    "Minor2",
+                    "Page Rank",
+                    "NA",
+                    "NA",
+                    "537444df-bafe-4f34-a90f-b8862bd9d06c"
+                ]
+            ]
+        },
+        "essay_topics": [
+            [
+                "RTOS Overview",
+                "05/30/2020",
+                "200",
+                "ab1e1feb-d107-4595-b39e-f027606e7557"
+            ]
+        ]
+    },
+    "khyati@igdtuw.ac.in": {
+        "notes": {
+            "Disaster Mangement": [
+                [
+                    "DisastersIntro.docx",
+                    "Minor2",
+                    "Introduction to disasters",
+                    "NA",
+                    "NA",
+                    "874568c5-0a15-4ebf-87c0-03b9661d8c9a"
+                ]
+            ]
+        },
+        "essay_topics": [
+            [
+                "RTOS Overview",
+                "05/31/2020",
+                "200",
+                "e0681dd3-b5df-4691-a72c-58acf388c624"
+            ]
+        ]
+    },
+    "monika@igdtuw.ac.in": {
+        "essay_topics": [
+            [
+                "RTOS",
+                "05/30/2020",
+                "200",
+                "477b91dd-5e88-4cb9-ab73-5fea0c07a372"
+            ]
+        ]
     }
 }
