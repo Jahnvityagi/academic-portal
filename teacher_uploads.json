@@ -7,7 +7,7 @@
                     "Minor1",
                     "intro to disasters",
                     "summary_Disasters.txt",
-                    "NA",
+                    "assignment_Disasters.txt",
                     "7593022f-1b4b-492b-b594-5cd503a8e88f"
                 ]
             ]
@@ -107,7 +107,7 @@
             ]
         ]
     },
-    "vivekanandajha@igdtuw.ac.in": {
+    "jha@igdtuw.ac.in": {
         "notes": {
             "Disaster Mangement": [
                 [
@@ -117,6 +117,22 @@
                     "NA",
                     "NA",
                     "483b7a37-253c-4154-bc32-f730a36f8f63"
+                ],
+                [
+                    "Earthquakes.docx",
+                    "Minor1",
+                    "Earthquakes",
+                    "NA",
+                    "NA",
+                    "4a46d6c8-fdae-414d-bbcb-673848e0ad88"
+                ],
+                [
+                    "Tsunami.txt",
+                    "Minor2",
+                    "Tsunami",
+                    "summary_Tsunami.txt",
+                    "assignment_Tsunami.txt",
+                    "dbb40317-12ee-4f08-9c03-f6635100ae49"
                 ]
             ],
             "Natural Language Processing": [
@@ -136,6 +152,18 @@
                 "05/30/2020",
                 "200",
                 "ab1e1feb-d107-4595-b39e-f027606e7557"
+            ],
+            [
+                "Effects of earthquakes",
+                "06/01/2020",
+                "200",
+                "dbbc46fe-0542-455f-ab55-c584b65f4903"
+            ],
+            [
+                "Effects of Tsunami",
+                "05/31/2020",
+                "300",
+                "ee6715ae-3e60-48a8-8150-935f686fb08b"
             ]
         ]
     },

@@ -450,7 +450,7 @@
                                       <th  class="th2">Uploaded on</th>
                                       <th class="th2">Uploaded Content</th>
                                       <th  class="th2">Summary</th>
-                                      <!-- <th  class="th2">Assignment</th> -->
+                                      <th  class="th2">Assignment</th>
                                       <th class="th2">Action</th>
                                     </tr>
                                     {% for n in upload | reverse %}
@@ -471,7 +471,7 @@
                                       {% else %}
                                       <td class="td2" width = "200px" style=" text-align: center;"><a href="{{n[1]}}"> Summary for {{n[5]}} </a></td>
                                       {% endif %}
-                                      <!-- {% if n[2] == "NA" %}
+                                      {% if n[2] == "NA" %}
                                       <td class="td2" width = "200px">
                                         <div style=" text-align: center;">
                                           <form action="generate_assignment" method="post">
@@ -483,7 +483,7 @@
                                       </td>
                                       {% else %}
                                       <td class="td2" width = "200px" style=" text-align: center;"><a href="{{n[2]}}"> Assignment for {{n[5]}} </a></td>
-                                      {% endif %} -->
+                                      {% endif %}
                                       <td class="td2"  style=" text-align: center;">
                                         <form action="delete_content" method="post">
                                           <input type="hidden" id="uuid" name="uuid" value="{{n[6]}}">
